@@ -1,0 +1,359 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>commons</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<parent>
+		<groupId>one.show</groupId>
+		<artifactId>show</artifactId>
+		<version>1.0</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
+
+
+	
+    <build>
+    	<defaultGoal>install</defaultGoal>
+		<directory>${basedir}/target</directory>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>${java-version}</source>
+                    <target>${java-version}</target>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>2.3</version>
+				<configuration>
+					<useDefaultManifestFile>true</useDefaultManifestFile>
+				</configuration>
+			</plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.8.1</version>
+                <configuration>
+                <testFailureIgnore>true</testFailureIgnore>
+                    <skipTests>true</skipTests>
+                    <junitArtifactName>junit:junit</junitArtifactName>
+                    <excludes>
+                        <exclude>**/*_Roo_*</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+            
+
+        </plugins>
+        
+        <resources>
+			<resource>
+				<directory>src/main/resources/${package.environment}</directory>
+			</resource>
+		</resources>
+    </build>
+	
+	
+	<dependencies>
+	
+	  <dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>1.7.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-jgroupsreplication</artifactId>
+			<version>1.7</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-api</artifactId>
+				</exclusion>
+
+			</exclusions>
+		</dependency>
+		
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+			<exclusions> 
+				<exclusion>
+					<groupId>commons-codec</groupId>
+					<artifactId>commons-codec</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+ 
+		<dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version>
+        </dependency>
+
+		<dependency>
+		    <groupId>dom4j</groupId>
+		    <artifactId>dom4j</artifactId>
+		    <version>1.6.1</version>
+		</dependency>
+
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.2.4</version>
+		</dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient-cache</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>${httpclient.version}</version>
+        </dependency>
+        
+        <dependency>
+		    <groupId>org.apache.httpcomponents</groupId>
+		    <artifactId>httpcore</artifactId>
+		    <version>4.4.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>redis.clients</groupId>
+			<artifactId>jedis</artifactId>
+			<version>2.9.0</version>
+		</dependency>
+		
+		<dependency>
+			 <groupId>org.apache.hbase</groupId>
+			 <artifactId>hbase-client</artifactId>
+			 <version>1.1.1</version>
+		</dependency>
+	
+		<dependency>
+		    <groupId>org.scala-lang</groupId>
+		    <artifactId>scala-library</artifactId>
+		    <version>2.10.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.yammer.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.101tec</groupId>
+			<artifactId>zkclient</artifactId>
+			<version>0.5</version>
+			<exclusions>  
+		        <exclusion>  
+		        	<groupId>org.apache.zookeeper</groupId>
+					<artifactId>zookeeper</artifactId>
+		        </exclusion>  
+		    </exclusions> 
+		</dependency>
+		
+		
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+		</dependency>
+        
+         <!-- 微博 -->
+        <dependency>
+		  	<groupId>sina.weibo4j</groupId>
+		  	<artifactId>weibo4j-oauth2</artifactId>
+		  	<version>1.0</version>
+		</dependency>
+       
+		<!-- 腾讯开放平台 -->
+		<dependency>
+		  <groupId>com.qq.open</groupId>
+		  <artifactId>api_sdk</artifactId>
+		  <version>3.0.6</version>
+		</dependency>
+
+		 <!-- 融云 -->
+		<dependency>
+		  <groupId>io.rong</groupId>
+		  <artifactId>api</artifactId>
+		  <version>1.0</version>
+		</dependency>
+		<!-- 网宿 -->
+		<dependency>
+			<groupId>com.chinanetcenter.api</groupId>
+			<artifactId>cnc-java-sdk-wcs</artifactId>
+			<version>2.0.1</version>
+			<classifier>b25131</classifier>
+		</dependency>
+			
+		<dependency>
+            <groupId>c3p0</groupId>
+            <artifactId>c3p0</artifactId>
+            <version>0.9.1.2</version>
+        </dependency>
+
+
+		<dependency>
+            <groupId>com.souyu</groupId>
+            <artifactId>sy_shard_db</artifactId>
+            <version>1.0</version>
+        </dependency>
+
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>mail</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>javax.mail-api</artifactId>
+			<version>1.5.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.alipay.api</groupId>
+			<artifactId>alipay-sdk</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>cn.jpush.api</groupId>
+			<artifactId>jpush-client</artifactId>
+			<version>3.3.2</version>
+		</dependency>
+		
+		<!-- 
+		<dependency>
+		  <groupId>com.alipay</groupId>
+		  <artifactId>alipay</artifactId>
+		  <version>1.5</version>
+		</dependency>
+		 -->
+
+		<dependency>
+		    <groupId>com.fasterxml.jackson.core</groupId>
+		    <artifactId>jackson-databind</artifactId>
+		    <version>2.8.3</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>javassist</groupId>
+		    <artifactId>javassist</artifactId>
+		    <version>3.12.0.GA</version>
+		</dependency>
+		
+		<dependency>  
+		     <groupId>com.netflix.hystrix</groupId>  
+		     <artifactId>hystrix-core</artifactId>  
+		     <version>1.5.12</version>  
+		 </dependency>  
+		     <dependency>  
+		     <groupId>com.netflix.hystrix</groupId>  
+		     <artifactId>hystrix-metrics-event-stream</artifactId>  
+		     <version>1.5.12</version>  
+		 </dependency>  
+		 
+		 <dependency>
+		  <groupId>com.aliyun.oss</groupId>
+		  <artifactId>aliyun-sdk-oss</artifactId>
+		  <version>2.7.0</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>com.aliyun</groupId>
+		  <artifactId>aliyun-java-sdk-sts</artifactId>
+		  <version>2.1.6</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>com.aliyun</groupId>
+		  <artifactId>aliyun-java-sdk-core</artifactId>
+		  <version>3.2.2</version>
+		</dependency>
+		
+		<dependency>
+	        <groupId>com.aliyun</groupId>
+	        <artifactId>aliyun-java-sdk-vod</artifactId>
+	        <version>2.2.0</version>
+	  	</dependency>
+		
+		<dependency>
+		    <groupId>com.belerweb</groupId>
+		    <artifactId>pinyin4j</artifactId>
+		    <version>2.5.0</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>alibaba.aliqin.fc</groupId>
+			<artifactId>sms</artifactId>
+			<version>1.0</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.janeluo</groupId>
+		    <artifactId>ikanalyzer</artifactId>
+		    <version>2012_u6</version>
+		</dependency>
+		
+		<dependency>
+		    <groupId>com.maxmind.geoip2</groupId>
+		    <artifactId>geoip2</artifactId>
+		    <version>2.11.0</version>
+		</dependency>
+      
+		<dependency>
+		    <groupId>com.alibaba</groupId>
+		    <artifactId>fastjson</artifactId>
+		    <version>1.2.47</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.google.zxing/core -->
+		<dependency>
+		    <groupId>com.google.zxing</groupId>
+		    <artifactId>core</artifactId>
+		    <version>3.3.2</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.google.zxing/javase -->
+		<dependency>
+		    <groupId>com.google.zxing</groupId>
+		    <artifactId>javase</artifactId>
+		    <version>3.3.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+		<dependency>
+			<groupId>commons-codec</groupId>
+			<artifactId>commons-codec</artifactId>
+			<version>1.10</version>
+		</dependency>
+		
+		<dependency>
+		  <groupId>org.web3j</groupId>
+		  <artifactId>core</artifactId>
+		  <version>3.3.1</version>
+		</dependency>
+
+	</dependencies>
+</project>
