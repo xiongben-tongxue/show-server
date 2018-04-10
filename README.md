@@ -1,1 +1,1 @@
-show-server
+ show-server
