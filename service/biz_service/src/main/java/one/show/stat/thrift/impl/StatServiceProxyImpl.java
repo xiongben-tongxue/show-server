@@ -197,14 +197,6 @@ public class StatServiceProxyImpl implements Iface {
 			throw new TException(e);
 		}
 	}
-	
-	
-	public static void main(String[] args) {
-		double f = 1.3646090110304447E7;
-		java.text.DecimalFormat   df=new   java.text.DecimalFormat("#.##");
-
-		System.out.println(df.format(f));
-	}
 
 	/* (non-Javadoc)
 	 * @see one.show.stat.thrift.iface.StatServiceProxy.Iface#getSummaryStatList(int)

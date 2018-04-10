@@ -378,11 +378,4 @@ public class VideoParams implements Serializable{
 	public void setLength(double length) {
 		this.length = length;
 	}
-	
-	public static void main(String[] args) {
-		int num = 29;
-		System.out.println(Integer.toBinaryString((1<<num)-1));
-		System.out.println(Integer.MAX_VALUE);
-		System.out.println((-1<<num)|0);
-	}
 }

@@ -67,11 +67,5 @@ public class IOS_Verify {
         }  
         return new String(b);  
     }  
-    
-    public static void main(String[] args) {
-		System.out.println(getFromBASE64("ewoJInNpZ25hdHVyZSIgPSAiQW9KMCtjM0h6QUZsaUpmTU5DcHNDeFprZ1BtZU5R"));
-	}
-    
-  
 
 }

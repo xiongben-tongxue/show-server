@@ -331,11 +331,6 @@ public class PayServiceImpl implements PayService{
 	public List<GiftRank> findGiftRanksByVid(long vid,int start,int count) {
 		return transactionToVidMapper.findGiftRanks(vid,start,count);
 	}
-	
-	public static void main(String[] args) {
-		BigDecimal result = new BigDecimal(7).multiply(new BigDecimal(1.5)).setScale(1, BigDecimal.ROUND_HALF_UP);
-		System.out.println(result);
-	}
 
 	@Override
 	public List<PayConfig> findAllPayConfigs() throws ServiceException {

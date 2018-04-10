@@ -611,10 +611,6 @@ public class VideoServiceImpl implements VideoService {
 			throw new ServiceException(e);
 		}
 	}
-	
-	public static void main(String[] args) {
-		System.out.println(RandomUtils.getRandomInteger(3, 11));
-	}
 
 	@Override
 	public List<LiveView> getLiveList4Square(String sort, Integer start,

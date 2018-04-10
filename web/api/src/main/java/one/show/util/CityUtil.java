@@ -154,9 +154,4 @@ public class CityUtil {
 		}
 		return 0;
 	}
-	public static void main(String[] args) {
-		//IpSearcherImpl放开ip。txt路径
-		//System.out.println(getProvice("106.37.84.208"));
-		System.out.println(getCityName(Double.parseDouble("40.002948"), Double.parseDouble("116.486141")));
-	}
 }
