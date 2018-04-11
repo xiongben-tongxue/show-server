@@ -29,7 +29,6 @@ public interface UserService{
 
 	public List<User> findUserListByIds(List<Long> ids);
 	
-	public List<User> findAllUsers0(Integer tbid) throws ServiceException;
+	public List<User> findAllUsersList(Integer start, Integer count) throws ServiceException;
 	
-	public List<User> findAllUsers1(Integer tbid) throws ServiceException;
 }

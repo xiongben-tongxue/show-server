@@ -128,9 +128,7 @@ service UserServiceProxy{
 	list<bool> findForbiddenListByUidsAndAction(1:list<i64> uids,2:i32 action);
 	void deleteNickName(1:string nickName);
 	
-	list<UserView.UserView> findAllUser0(1:i32 tbid);
-	
-	list<UserView.UserView> findAllUser1(1:i32 tbid);
+	list<UserView.UserView> findAllUserList(1:i32 start,2:i32 count);
 	
 	list<RobotView.RobotView> findAllRobot();
 }

@@ -34,8 +34,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.InvalidMediaTypeException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.multipart.MaxUploadSizeExceededException;
+import org.springframework.web.multipart.MultipartException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
@@ -147,6 +150,7 @@ public class BaseApi implements HandlerExceptionResolver {
             .put("11003"  ,  "已满每日最多验证次数")
             .put("11004"  ,  "获取过于频繁")
             .put("11005", "您的手机时间不对，请调整后重试")
+            .put("11006", "#msg#")
             
             //签约红人相关
             .put("12001", "您尚未签约")
@@ -172,11 +176,6 @@ public class BaseApi implements HandlerExceptionResolver {
 
     private static final Logger log = LoggerFactory.getLogger(BaseApi.class);
 
-    public Map getReturnJson() {
-        return returnJson;
-    }
-
-    protected Map returnJson = null;
 
     /**
      * 请求成功
@@ -365,7 +364,25 @@ public class BaseApi implements HandlerExceptionResolver {
         else if (exception instanceof SecurityException) {
             httpServletResponse.setStatus(200);
             return new ModelAndView(new MappingJackson2JsonView(),error(exception.getMessage()));
-        }else{
+        }else if (exception instanceof HttpRequestMethodNotSupportedException) {
+            httpServletResponse.setStatus(200);
+            Map<String, String> replace = new  HashMap<String, String>();
+            replace.put("msg", exception.getMessage());
+            return new ModelAndView(new MappingJackson2JsonView(),error("11006", replace));
+        } else if (exception instanceof InvalidMediaTypeException) {
+                //Content-Type ERROR
+            httpServletResponse.setStatus(200);
+            return new ModelAndView(new MappingJackson2JsonView(), error("1"));
+        }else if (exception instanceof MultipartException) {
+            httpServletResponse.setStatus(200);
+            return new ModelAndView(new MappingJackson2JsonView(), error("1"));
+        }else if (exception.getMessage() != null && exception.getMessage().trim().equals("org.eclipse.jetty.io.EofException")) {
+                //jetty准备回写response发现connection已经被关闭导致。
+            httpServletResponse.setStatus(200);
+            return new ModelAndView(new MappingJackson2JsonView(), error("1"));
+        }
+        
+        else{
         	return new ModelAndView(new MappingJackson2JsonView(),error("0"));
         }
 

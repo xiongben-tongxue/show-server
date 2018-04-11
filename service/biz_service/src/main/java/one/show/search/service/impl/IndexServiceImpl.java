@@ -38,27 +38,10 @@ public class IndexServiceImpl implements IndexService {
 	@Autowired
 	private UserServiceProxy.Iface userServiceClientProxy;
 
-//	private int[] dbst = { 0, 50 };
-//	private int[] dbnum = { 50, 50 };
-	
-
-	private int[] dbst = new int[2];
-	private int[] dbnum = new int[2];
 
 	@Override
 	public void createUserIndex(String indexPath) throws ServiceException {
 
-		String[] dbstArray = Loader.getInstance().getProps("dbst").split(",");
-		
-		dbst[0] = Integer.parseInt(dbstArray[0]);
-		dbst[1] = Integer.parseInt(dbstArray[1]);
-		
-		String[] dbnumArray = Loader.getInstance().getProps("dbnum").split(",");
-		
-		dbnum[0] = Integer.parseInt(dbnumArray[0]);
-		dbnum[1] = Integer.parseInt(dbnumArray[1]);
-		
-		log.info("dbst = "+dbst[0]+","+dbst[1]+", dbnum="+dbnum[0]+","+dbnum[1]);
 		
 		Date date1 = new Date();
 		Analyzer analyzer = new ComplexAnalyzer();
@@ -67,34 +50,37 @@ public class IndexServiceImpl implements IndexService {
 		try {
 			Directory userDirectory = FSDirectory.open(Paths.get(indexPath));
 			indexWriter = new IndexWriter(userDirectory, config);
-			List<UserView> userList = null;
-			for (int dbid = 0; dbid < 2; dbid++) {
-				for (int i = dbst[dbid]; i < dbst[dbid] + dbnum[dbid]; i++) {
-					if (dbid == 0) {
-						userList = userServiceClientProxy.findAllUser0(i);
-					}
-					if (dbid == 1) {
-						userList = userServiceClientProxy.findAllUser1(i);
-					}
 			
-					for (UserView user : userList) {
-						
-						Document doc = new Document();
-						doc.add(new StringField("uid", String.valueOf(user.getId()), Store.YES));
-						TextField nickname = new TextField("nickName", user.getNickname(), Store.YES);
-						nickname.setBoost(80);
-						doc.add(nickname);
-						
-						
-						TextField popularNo = new TextField("popularNo", String.valueOf(user.getPopularNo()), Store.YES);
-						popularNo.setBoost(20);
-						doc.add(popularNo);
+			 int pageSize = 1000;
+             int start = 0;
+             while(true){
+            	 	List<UserView> userList = userServiceClientProxy.findAllUserList(start, pageSize);
 
-						indexWriter.addDocument(doc);
-						log.info("add doc uid:"+String.valueOf(user.getId())+" nick:"+user.getNickname()+" pid:"+user.getPopularNo());
-					}
-				}
-			}
+                     if (userList == null || userList.size() == 0){
+                             break;
+                     }else{
+                             start += pageSize;
+                             
+                             for (UserView user : userList) {
+         						
+         						Document doc = new Document();
+         						doc.add(new StringField("uid", String.valueOf(user.getId()), Store.YES));
+         						TextField nickname = new TextField("nickName", user.getNickname(), Store.YES);
+         						nickname.setBoost(80);
+         						doc.add(nickname);
+         						
+         						
+         						TextField popularNo = new TextField("popularNo", String.valueOf(user.getPopularNo()), Store.YES);
+         						popularNo.setBoost(20);
+         						doc.add(popularNo);
+
+         						indexWriter.addDocument(doc);
+         						log.info("add doc uid:"+String.valueOf(user.getId())+" nick:"+user.getNickname()+" pid:"+user.getPopularNo());
+         					}
+                     }
+             }
+			
+			
 			indexWriter.commit();
 			indexWriter.close();
 			// analyzer.close();//single instance

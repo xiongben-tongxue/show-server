@@ -1,6 +1,7 @@
 package one.show.common.im;
 
 import io.rong.models.ChatroomInfo;
+
 import io.rong.models.FormatType;
 import io.rong.models.Message;
 import io.rong.models.MsgObj;

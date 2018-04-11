@@ -26,6 +26,7 @@
    		<ref bean="userServiceProxy" />
         <ref bean="deviceServiceProxy" />  
         <ref bean="familyServiceProxy" /> 
+        <ref bean="gpsServiceProxy" /> 
     	<ref bean="videoServiceProxy" />
     </util:list> 
     

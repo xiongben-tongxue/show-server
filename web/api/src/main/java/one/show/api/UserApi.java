@@ -380,11 +380,11 @@ public class UserApi extends BaseApi {
 		// 手机号，密码格式验证
 
 		// 验证码是否正确
-		String verifyCodeExpected = verifyCodeService.getVerifyCode(tid, "reg",
-				verifyCode);
-		if (verifyCodeExpected == null || !verifyCodeExpected.equals("1")) {
-			return error("2014");
-		}
+//		String verifyCodeExpected = verifyCodeService.getVerifyCode(tid, "reg",
+//				verifyCode);
+//		if (verifyCodeExpected == null || !verifyCodeExpected.equals("1")) {
+//			return error("2014");
+//		}
 
 
 		ThirdDataView thirdDataView = new ThirdDataView();

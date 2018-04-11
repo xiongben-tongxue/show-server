@@ -142,9 +142,7 @@ public class UserServiceProxy {
 
     public void deleteNickName(String nickName) throws org.apache.thrift.TException;
 
-    public List<one.show.user.thrift.view.UserView> findAllUser0(int tbid) throws org.apache.thrift.TException;
-
-    public List<one.show.user.thrift.view.UserView> findAllUser1(int tbid) throws org.apache.thrift.TException;
+    public List<one.show.user.thrift.view.UserView> findAllUserList(int start, int count) throws org.apache.thrift.TException;
 
     public List<one.show.user.thrift.view.RobotView> findAllRobot() throws org.apache.thrift.TException;
 
@@ -260,9 +258,7 @@ public class UserServiceProxy {
 
     public void deleteNickName(String nickName, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.deleteNickName_call> resultHandler) throws org.apache.thrift.TException;
 
-    public void findAllUser0(int tbid, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.findAllUser0_call> resultHandler) throws org.apache.thrift.TException;
-
-    public void findAllUser1(int tbid, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.findAllUser1_call> resultHandler) throws org.apache.thrift.TException;
+    public void findAllUserList(int start, int count, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.findAllUserList_call> resultHandler) throws org.apache.thrift.TException;
 
     public void findAllRobot(org.apache.thrift.async.AsyncMethodCallback<AsyncClient.findAllRobot_call> resultHandler) throws org.apache.thrift.TException;
 
@@ -1496,50 +1492,28 @@ public class UserServiceProxy {
       return;
     }
 
-    public List<one.show.user.thrift.view.UserView> findAllUser0(int tbid) throws org.apache.thrift.TException
+    public List<one.show.user.thrift.view.UserView> findAllUserList(int start, int count) throws org.apache.thrift.TException
     {
-      send_findAllUser0(tbid);
-      return recv_findAllUser0();
+      send_findAllUserList(start, count);
+      return recv_findAllUserList();
     }
 
-    public void send_findAllUser0(int tbid) throws org.apache.thrift.TException
+    public void send_findAllUserList(int start, int count) throws org.apache.thrift.TException
     {
-      findAllUser0_args args = new findAllUser0_args();
-      args.setTbid(tbid);
-      sendBase("findAllUser0", args);
+      findAllUserList_args args = new findAllUserList_args();
+      args.setStart(start);
+      args.setCount(count);
+      sendBase("findAllUserList", args);
     }
 
-    public List<one.show.user.thrift.view.UserView> recv_findAllUser0() throws org.apache.thrift.TException
+    public List<one.show.user.thrift.view.UserView> recv_findAllUserList() throws org.apache.thrift.TException
     {
-      findAllUser0_result result = new findAllUser0_result();
-      receiveBase(result, "findAllUser0");
+      findAllUserList_result result = new findAllUserList_result();
+      receiveBase(result, "findAllUserList");
       if (result.isSetSuccess()) {
         return result.success;
       }
-      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "findAllUser0 failed: unknown result");
-    }
-
-    public List<one.show.user.thrift.view.UserView> findAllUser1(int tbid) throws org.apache.thrift.TException
-    {
-      send_findAllUser1(tbid);
-      return recv_findAllUser1();
-    }
-
-    public void send_findAllUser1(int tbid) throws org.apache.thrift.TException
-    {
-      findAllUser1_args args = new findAllUser1_args();
-      args.setTbid(tbid);
-      sendBase("findAllUser1", args);
-    }
-
-    public List<one.show.user.thrift.view.UserView> recv_findAllUser1() throws org.apache.thrift.TException
-    {
-      findAllUser1_result result = new findAllUser1_result();
-      receiveBase(result, "findAllUser1");
-      if (result.isSetSuccess()) {
-        return result.success;
-      }
-      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "findAllUser1 failed: unknown result");
+      throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "findAllUserList failed: unknown result");
     }
 
     public List<one.show.user.thrift.view.RobotView> findAllRobot() throws org.apache.thrift.TException
@@ -3406,24 +3380,27 @@ public class UserServiceProxy {
       }
     }
 
-    public void findAllUser0(int tbid, org.apache.thrift.async.AsyncMethodCallback<findAllUser0_call> resultHandler) throws org.apache.thrift.TException {
+    public void findAllUserList(int start, int count, org.apache.thrift.async.AsyncMethodCallback<findAllUserList_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      findAllUser0_call method_call = new findAllUser0_call(tbid, resultHandler, this, ___protocolFactory, ___transport);
+      findAllUserList_call method_call = new findAllUserList_call(start, count, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
 
-    public static class findAllUser0_call extends org.apache.thrift.async.TAsyncMethodCall {
-      private int tbid;
-      public findAllUser0_call(int tbid, org.apache.thrift.async.AsyncMethodCallback<findAllUser0_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+    public static class findAllUserList_call extends org.apache.thrift.async.TAsyncMethodCall {
+      private int start;
+      private int count;
+      public findAllUserList_call(int start, int count, org.apache.thrift.async.AsyncMethodCallback<findAllUserList_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
-        this.tbid = tbid;
+        this.start = start;
+        this.count = count;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("findAllUser0", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        findAllUser0_args args = new findAllUser0_args();
-        args.setTbid(tbid);
+        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("findAllUserList", org.apache.thrift.protocol.TMessageType.CALL, 0));
+        findAllUserList_args args = new findAllUserList_args();
+        args.setStart(start);
+        args.setCount(count);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -3434,39 +3411,7 @@ public class UserServiceProxy {
         }
         org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
         org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_findAllUser0();
-      }
-    }
-
-    public void findAllUser1(int tbid, org.apache.thrift.async.AsyncMethodCallback<findAllUser1_call> resultHandler) throws org.apache.thrift.TException {
-      checkReady();
-      findAllUser1_call method_call = new findAllUser1_call(tbid, resultHandler, this, ___protocolFactory, ___transport);
-      this.___currentMethod = method_call;
-      ___manager.call(method_call);
-    }
-
-    public static class findAllUser1_call extends org.apache.thrift.async.TAsyncMethodCall {
-      private int tbid;
-      public findAllUser1_call(int tbid, org.apache.thrift.async.AsyncMethodCallback<findAllUser1_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
-        super(client, protocolFactory, transport, resultHandler, false);
-        this.tbid = tbid;
-      }
-
-      public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
-        prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("findAllUser1", org.apache.thrift.protocol.TMessageType.CALL, 0));
-        findAllUser1_args args = new findAllUser1_args();
-        args.setTbid(tbid);
-        args.write(prot);
-        prot.writeMessageEnd();
-      }
-
-      public List<one.show.user.thrift.view.UserView> getResult() throws org.apache.thrift.TException {
-        if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
-          throw new IllegalStateException("Method call not finished!");
-        }
-        org.apache.thrift.transport.TMemoryInputTransport memoryTransport = new org.apache.thrift.transport.TMemoryInputTransport(getFrameBuffer().array());
-        org.apache.thrift.protocol.TProtocol prot = client.getProtocolFactory().getProtocol(memoryTransport);
-        return (new Client(prot)).recv_findAllUser1();
+        return (new Client(prot)).recv_findAllUserList();
       }
     }
 
@@ -3566,8 +3511,7 @@ public class UserServiceProxy {
       processMap.put("findUidByNickName", new findUidByNickName());
       processMap.put("findForbiddenListByUidsAndAction", new findForbiddenListByUidsAndAction());
       processMap.put("deleteNickName", new deleteNickName());
-      processMap.put("findAllUser0", new findAllUser0());
-      processMap.put("findAllUser1", new findAllUser1());
+      processMap.put("findAllUserList", new findAllUserList());
       processMap.put("findAllRobot", new findAllRobot());
       return processMap;
     }
@@ -4671,42 +4615,22 @@ public class UserServiceProxy {
       }
     }
 
-    public static class findAllUser0<I extends Iface> extends org.apache.thrift.ProcessFunction<I, findAllUser0_args> {
-      public findAllUser0() {
-        super("findAllUser0");
+    public static class findAllUserList<I extends Iface> extends org.apache.thrift.ProcessFunction<I, findAllUserList_args> {
+      public findAllUserList() {
+        super("findAllUserList");
       }
 
-      public findAllUser0_args getEmptyArgsInstance() {
-        return new findAllUser0_args();
-      }
-
-      protected boolean isOneway() {
-        return false;
-      }
-
-      public findAllUser0_result getResult(I iface, findAllUser0_args args) throws org.apache.thrift.TException {
-        findAllUser0_result result = new findAllUser0_result();
-        result.success = iface.findAllUser0(args.tbid);
-        return result;
-      }
-    }
-
-    public static class findAllUser1<I extends Iface> extends org.apache.thrift.ProcessFunction<I, findAllUser1_args> {
-      public findAllUser1() {
-        super("findAllUser1");
-      }
-
-      public findAllUser1_args getEmptyArgsInstance() {
-        return new findAllUser1_args();
+      public findAllUserList_args getEmptyArgsInstance() {
+        return new findAllUserList_args();
       }
 
       protected boolean isOneway() {
         return false;
       }
 
-      public findAllUser1_result getResult(I iface, findAllUser1_args args) throws org.apache.thrift.TException {
-        findAllUser1_result result = new findAllUser1_result();
-        result.success = iface.findAllUser1(args.tbid);
+      public findAllUserList_result getResult(I iface, findAllUserList_args args) throws org.apache.thrift.TException {
+        findAllUserList_result result = new findAllUserList_result();
+        result.success = iface.findAllUserList(args.start, args.count);
         return result;
       }
     }
@@ -44715,22 +44639,25 @@ public class UserServiceProxy {
 
   }
 
-  public static class findAllUser0_args implements org.apache.thrift.TBase<findAllUser0_args, findAllUser0_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("findAllUser0_args");
+  public static class findAllUserList_args implements org.apache.thrift.TBase<findAllUserList_args, findAllUserList_args._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("findAllUserList_args");
 
-    private static final org.apache.thrift.protocol.TField TBID_FIELD_DESC = new org.apache.thrift.protocol.TField("tbid", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField START_FIELD_DESC = new org.apache.thrift.protocol.TField("start", org.apache.thrift.protocol.TType.I32, (short)1);
+    private static final org.apache.thrift.protocol.TField COUNT_FIELD_DESC = new org.apache.thrift.protocol.TField("count", org.apache.thrift.protocol.TType.I32, (short)2);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
-      schemes.put(StandardScheme.class, new findAllUser0_argsStandardSchemeFactory());
-      schemes.put(TupleScheme.class, new findAllUser0_argsTupleSchemeFactory());
+      schemes.put(StandardScheme.class, new findAllUserList_argsStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new findAllUserList_argsTupleSchemeFactory());
     }
 
-    public int tbid; // required
+    public int start; // required
+    public int count; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      TBID((short)1, "tbid");
+      START((short)1, "start"),
+      COUNT((short)2, "count");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -44745,8 +44672,10 @@ public class UserServiceProxy {
        */
       public static _Fields findByThriftId(int fieldId) {
         switch(fieldId) {
-          case 1: // TBID
-            return TBID;
+          case 1: // START
+            return START;
+          case 2: // COUNT
+            return COUNT;
           default:
             return null;
         }
@@ -44787,76 +44716,116 @@ public class UserServiceProxy {
     }
 
     // isset id assignments
-    private static final int __TBID_ISSET_ID = 0;
+    private static final int __START_ISSET_ID = 0;
+    private static final int __COUNT_ISSET_ID = 1;
     private byte __isset_bitfield = 0;
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.TBID, new org.apache.thrift.meta_data.FieldMetaData("tbid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+      tmpMap.put(_Fields.START, new org.apache.thrift.meta_data.FieldMetaData("start", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
+      tmpMap.put(_Fields.COUNT, new org.apache.thrift.meta_data.FieldMetaData("count", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(findAllUser0_args.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(findAllUserList_args.class, metaDataMap);
     }
 
-    public findAllUser0_args() {
+    public findAllUserList_args() {
     }
 
-    public findAllUser0_args(
-      int tbid)
+    public findAllUserList_args(
+      int start,
+      int count)
     {
       this();
-      this.tbid = tbid;
-      setTbidIsSet(true);
+      this.start = start;
+      setStartIsSet(true);
+      this.count = count;
+      setCountIsSet(true);
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public findAllUser0_args(findAllUser0_args other) {
+    public findAllUserList_args(findAllUserList_args other) {
       __isset_bitfield = other.__isset_bitfield;
-      this.tbid = other.tbid;
+      this.start = other.start;
+      this.count = other.count;
     }
 
-    public findAllUser0_args deepCopy() {
-      return new findAllUser0_args(this);
+    public findAllUserList_args deepCopy() {
+      return new findAllUserList_args(this);
     }
 
     @Override
     public void clear() {
-      setTbidIsSet(false);
-      this.tbid = 0;
+      setStartIsSet(false);
+      this.start = 0;
+      setCountIsSet(false);
+      this.count = 0;
     }
 
-    public int getTbid() {
-      return this.tbid;
+    public int getStart() {
+      return this.start;
     }
 
-    public findAllUser0_args setTbid(int tbid) {
-      this.tbid = tbid;
-      setTbidIsSet(true);
+    public findAllUserList_args setStart(int start) {
+      this.start = start;
+      setStartIsSet(true);
       return this;
     }
 
-    public void unsetTbid() {
-      __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __TBID_ISSET_ID);
+    public void unsetStart() {
+      __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __START_ISSET_ID);
     }
 
-    /** Returns true if field tbid is set (has been assigned a value) and false otherwise */
-    public boolean isSetTbid() {
-      return EncodingUtils.testBit(__isset_bitfield, __TBID_ISSET_ID);
+    /** Returns true if field start is set (has been assigned a value) and false otherwise */
+    public boolean isSetStart() {
+      return EncodingUtils.testBit(__isset_bitfield, __START_ISSET_ID);
     }
 
-    public void setTbidIsSet(boolean value) {
-      __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __TBID_ISSET_ID, value);
+    public void setStartIsSet(boolean value) {
+      __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __START_ISSET_ID, value);
+    }
+
+    public int getCount() {
+      return this.count;
+    }
+
+    public findAllUserList_args setCount(int count) {
+      this.count = count;
+      setCountIsSet(true);
+      return this;
+    }
+
+    public void unsetCount() {
+      __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __COUNT_ISSET_ID);
+    }
+
+    /** Returns true if field count is set (has been assigned a value) and false otherwise */
+    public boolean isSetCount() {
+      return EncodingUtils.testBit(__isset_bitfield, __COUNT_ISSET_ID);
+    }
+
+    public void setCountIsSet(boolean value) {
+      __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __COUNT_ISSET_ID, value);
     }
 
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
-      case TBID:
+      case START:
         if (value == null) {
-          unsetTbid();
+          unsetStart();
         } else {
-          setTbid((Integer)value);
+          setStart((Integer)value);
+        }
+        break;
+
+      case COUNT:
+        if (value == null) {
+          unsetCount();
+        } else {
+          setCount((Integer)value);
         }
         break;
 
@@ -44865,8 +44834,11 @@ public class UserServiceProxy {
 
     public Object getFieldValue(_Fields field) {
       switch (field) {
-      case TBID:
-        return Integer.valueOf(getTbid());
+      case START:
+        return Integer.valueOf(getStart());
+
+      case COUNT:
+        return Integer.valueOf(getCount());
 
       }
       throw new IllegalStateException();
@@ -44879,8 +44851,10 @@ public class UserServiceProxy {
       }
 
       switch (field) {
-      case TBID:
-        return isSetTbid();
+      case START:
+        return isSetStart();
+      case COUNT:
+        return isSetCount();
       }
       throw new IllegalStateException();
     }
@@ -44889,21 +44863,30 @@ public class UserServiceProxy {
     public boolean equals(Object that) {
       if (that == null)
         return false;
-      if (that instanceof findAllUser0_args)
-        return this.equals((findAllUser0_args)that);
+      if (that instanceof findAllUserList_args)
+        return this.equals((findAllUserList_args)that);
       return false;
     }
 
-    public boolean equals(findAllUser0_args that) {
+    public boolean equals(findAllUserList_args that) {
       if (that == null)
         return false;
 
-      boolean this_present_tbid = true;
-      boolean that_present_tbid = true;
-      if (this_present_tbid || that_present_tbid) {
-        if (!(this_present_tbid && that_present_tbid))
+      boolean this_present_start = true;
+      boolean that_present_start = true;
+      if (this_present_start || that_present_start) {
+        if (!(this_present_start && that_present_start))
           return false;
-        if (this.tbid != that.tbid)
+        if (this.start != that.start)
+          return false;
+      }
+
+      boolean this_present_count = true;
+      boolean that_present_count = true;
+      if (this_present_count || that_present_count) {
+        if (!(this_present_count && that_present_count))
+          return false;
+        if (this.count != that.count)
           return false;
       }
 
@@ -44915,20 +44898,30 @@ public class UserServiceProxy {
       return 0;
     }
 
-    public int compareTo(findAllUser0_args other) {
+    public int compareTo(findAllUserList_args other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
 
       int lastComparison = 0;
-      findAllUser0_args typedOther = (findAllUser0_args)other;
+      findAllUserList_args typedOther = (findAllUserList_args)other;
 
-      lastComparison = Boolean.valueOf(isSetTbid()).compareTo(typedOther.isSetTbid());
+      lastComparison = Boolean.valueOf(isSetStart()).compareTo(typedOther.isSetStart());
       if (lastComparison != 0) {
         return lastComparison;
       }
-      if (isSetTbid()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.tbid, typedOther.tbid);
+      if (isSetStart()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.start, typedOther.start);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
+      lastComparison = Boolean.valueOf(isSetCount()).compareTo(typedOther.isSetCount());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetCount()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.count, typedOther.count);
         if (lastComparison != 0) {
           return lastComparison;
         }
@@ -44950,11 +44943,15 @@ public class UserServiceProxy {
 
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder("findAllUser0_args(");
+      StringBuilder sb = new StringBuilder("findAllUserList_args(");
       boolean first = true;
 
-      sb.append("tbid:");
-      sb.append(this.tbid);
+      sb.append("start:");
+      sb.append(this.start);
+      first = false;
+      if (!first) sb.append(", ");
+      sb.append("count:");
+      sb.append(this.count);
       first = false;
       sb.append(")");
       return sb.toString();
@@ -44983,15 +44980,15 @@ public class UserServiceProxy {
       }
     }
 
-    private static class findAllUser0_argsStandardSchemeFactory implements SchemeFactory {
-      public findAllUser0_argsStandardScheme getScheme() {
-        return new findAllUser0_argsStandardScheme();
+    private static class findAllUserList_argsStandardSchemeFactory implements SchemeFactory {
+      public findAllUserList_argsStandardScheme getScheme() {
+        return new findAllUserList_argsStandardScheme();
       }
     }
 
-    private static class findAllUser0_argsStandardScheme extends StandardScheme<findAllUser0_args> {
+    private static class findAllUserList_argsStandardScheme extends StandardScheme<findAllUserList_args> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, findAllUser0_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, findAllUserList_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -45001,10 +44998,18 @@ public class UserServiceProxy {
             break;
           }
           switch (schemeField.id) {
-            case 1: // TBID
+            case 1: // START
               if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-                struct.tbid = iprot.readI32();
-                struct.setTbidIsSet(true);
+                struct.start = iprot.readI32();
+                struct.setStartIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
+            case 2: // COUNT
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.count = iprot.readI32();
+                struct.setCountIsSet(true);
               } else { 
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
@@ -45020,12 +45025,15 @@ public class UserServiceProxy {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, findAllUser0_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, findAllUserList_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldBegin(TBID_FIELD_DESC);
-        oprot.writeI32(struct.tbid);
+        oprot.writeFieldBegin(START_FIELD_DESC);
+        oprot.writeI32(struct.start);
+        oprot.writeFieldEnd();
+        oprot.writeFieldBegin(COUNT_FIELD_DESC);
+        oprot.writeI32(struct.count);
         oprot.writeFieldEnd();
         oprot.writeFieldStop();
         oprot.writeStructEnd();
@@ -45033,49 +45041,59 @@ public class UserServiceProxy {
 
     }
 
-    private static class findAllUser0_argsTupleSchemeFactory implements SchemeFactory {
-      public findAllUser0_argsTupleScheme getScheme() {
-        return new findAllUser0_argsTupleScheme();
+    private static class findAllUserList_argsTupleSchemeFactory implements SchemeFactory {
+      public findAllUserList_argsTupleScheme getScheme() {
+        return new findAllUserList_argsTupleScheme();
       }
     }
 
-    private static class findAllUser0_argsTupleScheme extends TupleScheme<findAllUser0_args> {
+    private static class findAllUserList_argsTupleScheme extends TupleScheme<findAllUserList_args> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, findAllUser0_args struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, findAllUserList_args struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
-        if (struct.isSetTbid()) {
+        if (struct.isSetStart()) {
           optionals.set(0);
         }
-        oprot.writeBitSet(optionals, 1);
-        if (struct.isSetTbid()) {
-          oprot.writeI32(struct.tbid);
+        if (struct.isSetCount()) {
+          optionals.set(1);
+        }
+        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetStart()) {
+          oprot.writeI32(struct.start);
+        }
+        if (struct.isSetCount()) {
+          oprot.writeI32(struct.count);
         }
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, findAllUser0_args struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, findAllUserList_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
-        BitSet incoming = iprot.readBitSet(1);
+        BitSet incoming = iprot.readBitSet(2);
         if (incoming.get(0)) {
-          struct.tbid = iprot.readI32();
-          struct.setTbidIsSet(true);
+          struct.start = iprot.readI32();
+          struct.setStartIsSet(true);
+        }
+        if (incoming.get(1)) {
+          struct.count = iprot.readI32();
+          struct.setCountIsSet(true);
         }
       }
     }
 
   }
 
-  public static class findAllUser0_result implements org.apache.thrift.TBase<findAllUser0_result, findAllUser0_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("findAllUser0_result");
+  public static class findAllUserList_result implements org.apache.thrift.TBase<findAllUserList_result, findAllUserList_result._Fields>, java.io.Serializable, Cloneable   {
+    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("findAllUserList_result");
 
     private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
-      schemes.put(StandardScheme.class, new findAllUser0_resultStandardSchemeFactory());
-      schemes.put(TupleScheme.class, new findAllUser0_resultTupleSchemeFactory());
+      schemes.put(StandardScheme.class, new findAllUserList_resultStandardSchemeFactory());
+      schemes.put(TupleScheme.class, new findAllUserList_resultTupleSchemeFactory());
     }
 
     public List<one.show.user.thrift.view.UserView> success; // required
@@ -45146,13 +45164,13 @@ public class UserServiceProxy {
           new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
               new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, one.show.user.thrift.view.UserView.class))));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(findAllUser0_result.class, metaDataMap);
+      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(findAllUserList_result.class, metaDataMap);
     }
 
-    public findAllUser0_result() {
+    public findAllUserList_result() {
     }
 
-    public findAllUser0_result(
+    public findAllUserList_result(
       List<one.show.user.thrift.view.UserView> success)
     {
       this();
@@ -45162,7 +45180,7 @@ public class UserServiceProxy {
     /**
      * Performs a deep copy on <i>other</i>.
      */
-    public findAllUser0_result(findAllUser0_result other) {
+    public findAllUserList_result(findAllUserList_result other) {
       if (other.isSetSuccess()) {
         List<one.show.user.thrift.view.UserView> __this__success = new ArrayList<one.show.user.thrift.view.UserView>();
         for (one.show.user.thrift.view.UserView other_element : other.success) {
@@ -45172,8 +45190,8 @@ public class UserServiceProxy {
       }
     }
 
-    public findAllUser0_result deepCopy() {
-      return new findAllUser0_result(this);
+    public findAllUserList_result deepCopy() {
+      return new findAllUserList_result(this);
     }
 
     @Override
@@ -45200,7 +45218,7 @@ public class UserServiceProxy {
       return this.success;
     }
 
-    public findAllUser0_result setSuccess(List<one.show.user.thrift.view.UserView> success) {
+    public findAllUserList_result setSuccess(List<one.show.user.thrift.view.UserView> success) {
       this.success = success;
       return this;
     }
@@ -45259,12 +45277,12 @@ public class UserServiceProxy {
     public boolean equals(Object that) {
       if (that == null)
         return false;
-      if (that instanceof findAllUser0_result)
-        return this.equals((findAllUser0_result)that);
+      if (that instanceof findAllUserList_result)
+        return this.equals((findAllUserList_result)that);
       return false;
     }
 
-    public boolean equals(findAllUser0_result that) {
+    public boolean equals(findAllUserList_result that) {
       if (that == null)
         return false;
 
@@ -45285,13 +45303,13 @@ public class UserServiceProxy {
       return 0;
     }
 
-    public int compareTo(findAllUser0_result other) {
+    public int compareTo(findAllUserList_result other) {
       if (!getClass().equals(other.getClass())) {
         return getClass().getName().compareTo(other.getClass().getName());
       }
 
       int lastComparison = 0;
-      findAllUser0_result typedOther = (findAllUser0_result)other;
+      findAllUserList_result typedOther = (findAllUserList_result)other;
 
       lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
       if (lastComparison != 0) {
@@ -45320,7 +45338,7 @@ public class UserServiceProxy {
 
     @Override
     public String toString() {
-      StringBuilder sb = new StringBuilder("findAllUser0_result(");
+      StringBuilder sb = new StringBuilder("findAllUserList_result(");
       boolean first = true;
 
       sb.append("success:");
@@ -45355,15 +45373,15 @@ public class UserServiceProxy {
       }
     }
 
-    private static class findAllUser0_resultStandardSchemeFactory implements SchemeFactory {
-      public findAllUser0_resultStandardScheme getScheme() {
-        return new findAllUser0_resultStandardScheme();
+    private static class findAllUserList_resultStandardSchemeFactory implements SchemeFactory {
+      public findAllUserList_resultStandardScheme getScheme() {
+        return new findAllUserList_resultStandardScheme();
       }
     }
 
-    private static class findAllUser0_resultStandardScheme extends StandardScheme<findAllUser0_result> {
+    private static class findAllUserList_resultStandardScheme extends StandardScheme<findAllUserList_result> {
 
-      public void read(org.apache.thrift.protocol.TProtocol iprot, findAllUser0_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol iprot, findAllUserList_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
         while (true)
@@ -45403,7 +45421,7 @@ public class UserServiceProxy {
         struct.validate();
       }
 
-      public void write(org.apache.thrift.protocol.TProtocol oprot, findAllUser0_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol oprot, findAllUserList_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
@@ -45425,16 +45443,16 @@ public class UserServiceProxy {
 
     }
 
-    private static class findAllUser0_resultTupleSchemeFactory implements SchemeFactory {
-      public findAllUser0_resultTupleScheme getScheme() {
-        return new findAllUser0_resultTupleScheme();
+    private static class findAllUserList_resultTupleSchemeFactory implements SchemeFactory {
+      public findAllUserList_resultTupleScheme getScheme() {
+        return new findAllUserList_resultTupleScheme();
       }
     }
 
-    private static class findAllUser0_resultTupleScheme extends TupleScheme<findAllUser0_result> {
+    private static class findAllUserList_resultTupleScheme extends TupleScheme<findAllUserList_result> {
 
       @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, findAllUser0_result struct) throws org.apache.thrift.TException {
+      public void write(org.apache.thrift.protocol.TProtocol prot, findAllUserList_result struct) throws org.apache.thrift.TException {
         TTupleProtocol oprot = (TTupleProtocol) prot;
         BitSet optionals = new BitSet();
         if (struct.isSetSuccess()) {
@@ -45453,7 +45471,7 @@ public class UserServiceProxy {
       }
 
       @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, findAllUser0_result struct) throws org.apache.thrift.TException {
+      public void read(org.apache.thrift.protocol.TProtocol prot, findAllUserList_result struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
@@ -45466,766 +45484,6 @@ public class UserServiceProxy {
               _elem167 = new one.show.user.thrift.view.UserView();
               _elem167.read(iprot);
               struct.success.add(_elem167);
-            }
-          }
-          struct.setSuccessIsSet(true);
-        }
-      }
-    }
-
-  }
-
-  public static class findAllUser1_args implements org.apache.thrift.TBase<findAllUser1_args, findAllUser1_args._Fields>, java.io.Serializable, Cloneable   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("findAllUser1_args");
-
-    private static final org.apache.thrift.protocol.TField TBID_FIELD_DESC = new org.apache.thrift.protocol.TField("tbid", org.apache.thrift.protocol.TType.I32, (short)1);
-
-    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-    static {
-      schemes.put(StandardScheme.class, new findAllUser1_argsStandardSchemeFactory());
-      schemes.put(TupleScheme.class, new findAllUser1_argsTupleSchemeFactory());
-    }
-
-    public int tbid; // required
-
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      TBID((short)1, "tbid");
-
-      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
-
-      static {
-        for (_Fields field : EnumSet.allOf(_Fields.class)) {
-          byName.put(field.getFieldName(), field);
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, or null if its not found.
-       */
-      public static _Fields findByThriftId(int fieldId) {
-        switch(fieldId) {
-          case 1: // TBID
-            return TBID;
-          default:
-            return null;
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, throwing an exception
-       * if it is not found.
-       */
-      public static _Fields findByThriftIdOrThrow(int fieldId) {
-        _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-        return fields;
-      }
-
-      /**
-       * Find the _Fields constant that matches name, or null if its not found.
-       */
-      public static _Fields findByName(String name) {
-        return byName.get(name);
-      }
-
-      private final short _thriftId;
-      private final String _fieldName;
-
-      _Fields(short thriftId, String fieldName) {
-        _thriftId = thriftId;
-        _fieldName = fieldName;
-      }
-
-      public short getThriftFieldId() {
-        return _thriftId;
-      }
-
-      public String getFieldName() {
-        return _fieldName;
-      }
-    }
-
-    // isset id assignments
-    private static final int __TBID_ISSET_ID = 0;
-    private byte __isset_bitfield = 0;
-    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-    static {
-      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.TBID, new org.apache.thrift.meta_data.FieldMetaData("tbid", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
-      metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(findAllUser1_args.class, metaDataMap);
-    }
-
-    public findAllUser1_args() {
-    }
-
-    public findAllUser1_args(
-      int tbid)
-    {
-      this();
-      this.tbid = tbid;
-      setTbidIsSet(true);
-    }
-
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
-    public findAllUser1_args(findAllUser1_args other) {
-      __isset_bitfield = other.__isset_bitfield;
-      this.tbid = other.tbid;
-    }
-
-    public findAllUser1_args deepCopy() {
-      return new findAllUser1_args(this);
-    }
-
-    @Override
-    public void clear() {
-      setTbidIsSet(false);
-      this.tbid = 0;
-    }
-
-    public int getTbid() {
-      return this.tbid;
-    }
-
-    public findAllUser1_args setTbid(int tbid) {
-      this.tbid = tbid;
-      setTbidIsSet(true);
-      return this;
-    }
-
-    public void unsetTbid() {
-      __isset_bitfield = EncodingUtils.clearBit(__isset_bitfield, __TBID_ISSET_ID);
-    }
-
-    /** Returns true if field tbid is set (has been assigned a value) and false otherwise */
-    public boolean isSetTbid() {
-      return EncodingUtils.testBit(__isset_bitfield, __TBID_ISSET_ID);
-    }
-
-    public void setTbidIsSet(boolean value) {
-      __isset_bitfield = EncodingUtils.setBit(__isset_bitfield, __TBID_ISSET_ID, value);
-    }
-
-    public void setFieldValue(_Fields field, Object value) {
-      switch (field) {
-      case TBID:
-        if (value == null) {
-          unsetTbid();
-        } else {
-          setTbid((Integer)value);
-        }
-        break;
-
-      }
-    }
-
-    public Object getFieldValue(_Fields field) {
-      switch (field) {
-      case TBID:
-        return Integer.valueOf(getTbid());
-
-      }
-      throw new IllegalStateException();
-    }
-
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-    public boolean isSet(_Fields field) {
-      if (field == null) {
-        throw new IllegalArgumentException();
-      }
-
-      switch (field) {
-      case TBID:
-        return isSetTbid();
-      }
-      throw new IllegalStateException();
-    }
-
-    @Override
-    public boolean equals(Object that) {
-      if (that == null)
-        return false;
-      if (that instanceof findAllUser1_args)
-        return this.equals((findAllUser1_args)that);
-      return false;
-    }
-
-    public boolean equals(findAllUser1_args that) {
-      if (that == null)
-        return false;
-
-      boolean this_present_tbid = true;
-      boolean that_present_tbid = true;
-      if (this_present_tbid || that_present_tbid) {
-        if (!(this_present_tbid && that_present_tbid))
-          return false;
-        if (this.tbid != that.tbid)
-          return false;
-      }
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      return 0;
-    }
-
-    public int compareTo(findAllUser1_args other) {
-      if (!getClass().equals(other.getClass())) {
-        return getClass().getName().compareTo(other.getClass().getName());
-      }
-
-      int lastComparison = 0;
-      findAllUser1_args typedOther = (findAllUser1_args)other;
-
-      lastComparison = Boolean.valueOf(isSetTbid()).compareTo(typedOther.isSetTbid());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetTbid()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.tbid, typedOther.tbid);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      return 0;
-    }
-
-    public _Fields fieldForId(int fieldId) {
-      return _Fields.findByThriftId(fieldId);
-    }
-
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
-    }
-
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
-    }
-
-    @Override
-    public String toString() {
-      StringBuilder sb = new StringBuilder("findAllUser1_args(");
-      boolean first = true;
-
-      sb.append("tbid:");
-      sb.append(this.tbid);
-      first = false;
-      sb.append(")");
-      return sb.toString();
-    }
-
-    public void validate() throws org.apache.thrift.TException {
-      // check for required fields
-      // check for sub-struct validity
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-      try {
-        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
-      try {
-        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
-        __isset_bitfield = 0;
-        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private static class findAllUser1_argsStandardSchemeFactory implements SchemeFactory {
-      public findAllUser1_argsStandardScheme getScheme() {
-        return new findAllUser1_argsStandardScheme();
-      }
-    }
-
-    private static class findAllUser1_argsStandardScheme extends StandardScheme<findAllUser1_args> {
-
-      public void read(org.apache.thrift.protocol.TProtocol iprot, findAllUser1_args struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TField schemeField;
-        iprot.readStructBegin();
-        while (true)
-        {
-          schemeField = iprot.readFieldBegin();
-          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
-            break;
-          }
-          switch (schemeField.id) {
-            case 1: // TBID
-              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
-                struct.tbid = iprot.readI32();
-                struct.setTbidIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            default:
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-          }
-          iprot.readFieldEnd();
-        }
-        iprot.readStructEnd();
-
-        // check for required fields of primitive type, which can't be checked in the validate method
-        struct.validate();
-      }
-
-      public void write(org.apache.thrift.protocol.TProtocol oprot, findAllUser1_args struct) throws org.apache.thrift.TException {
-        struct.validate();
-
-        oprot.writeStructBegin(STRUCT_DESC);
-        oprot.writeFieldBegin(TBID_FIELD_DESC);
-        oprot.writeI32(struct.tbid);
-        oprot.writeFieldEnd();
-        oprot.writeFieldStop();
-        oprot.writeStructEnd();
-      }
-
-    }
-
-    private static class findAllUser1_argsTupleSchemeFactory implements SchemeFactory {
-      public findAllUser1_argsTupleScheme getScheme() {
-        return new findAllUser1_argsTupleScheme();
-      }
-    }
-
-    private static class findAllUser1_argsTupleScheme extends TupleScheme<findAllUser1_args> {
-
-      @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, findAllUser1_args struct) throws org.apache.thrift.TException {
-        TTupleProtocol oprot = (TTupleProtocol) prot;
-        BitSet optionals = new BitSet();
-        if (struct.isSetTbid()) {
-          optionals.set(0);
-        }
-        oprot.writeBitSet(optionals, 1);
-        if (struct.isSetTbid()) {
-          oprot.writeI32(struct.tbid);
-        }
-      }
-
-      @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, findAllUser1_args struct) throws org.apache.thrift.TException {
-        TTupleProtocol iprot = (TTupleProtocol) prot;
-        BitSet incoming = iprot.readBitSet(1);
-        if (incoming.get(0)) {
-          struct.tbid = iprot.readI32();
-          struct.setTbidIsSet(true);
-        }
-      }
-    }
-
-  }
-
-  public static class findAllUser1_result implements org.apache.thrift.TBase<findAllUser1_result, findAllUser1_result._Fields>, java.io.Serializable, Cloneable   {
-    private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("findAllUser1_result");
-
-    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.LIST, (short)0);
-
-    private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
-    static {
-      schemes.put(StandardScheme.class, new findAllUser1_resultStandardSchemeFactory());
-      schemes.put(TupleScheme.class, new findAllUser1_resultTupleSchemeFactory());
-    }
-
-    public List<one.show.user.thrift.view.UserView> success; // required
-
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
-    public enum _Fields implements org.apache.thrift.TFieldIdEnum {
-      SUCCESS((short)0, "success");
-
-      private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
-
-      static {
-        for (_Fields field : EnumSet.allOf(_Fields.class)) {
-          byName.put(field.getFieldName(), field);
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, or null if its not found.
-       */
-      public static _Fields findByThriftId(int fieldId) {
-        switch(fieldId) {
-          case 0: // SUCCESS
-            return SUCCESS;
-          default:
-            return null;
-        }
-      }
-
-      /**
-       * Find the _Fields constant that matches fieldId, throwing an exception
-       * if it is not found.
-       */
-      public static _Fields findByThriftIdOrThrow(int fieldId) {
-        _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
-        return fields;
-      }
-
-      /**
-       * Find the _Fields constant that matches name, or null if its not found.
-       */
-      public static _Fields findByName(String name) {
-        return byName.get(name);
-      }
-
-      private final short _thriftId;
-      private final String _fieldName;
-
-      _Fields(short thriftId, String fieldName) {
-        _thriftId = thriftId;
-        _fieldName = fieldName;
-      }
-
-      public short getThriftFieldId() {
-        return _thriftId;
-      }
-
-      public String getFieldName() {
-        return _fieldName;
-      }
-    }
-
-    // isset id assignments
-    public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
-    static {
-      Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
-      tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.ListMetaData(org.apache.thrift.protocol.TType.LIST, 
-              new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, one.show.user.thrift.view.UserView.class))));
-      metaDataMap = Collections.unmodifiableMap(tmpMap);
-      org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(findAllUser1_result.class, metaDataMap);
-    }
-
-    public findAllUser1_result() {
-    }
-
-    public findAllUser1_result(
-      List<one.show.user.thrift.view.UserView> success)
-    {
-      this();
-      this.success = success;
-    }
-
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
-    public findAllUser1_result(findAllUser1_result other) {
-      if (other.isSetSuccess()) {
-        List<one.show.user.thrift.view.UserView> __this__success = new ArrayList<one.show.user.thrift.view.UserView>();
-        for (one.show.user.thrift.view.UserView other_element : other.success) {
-          __this__success.add(new one.show.user.thrift.view.UserView(other_element));
-        }
-        this.success = __this__success;
-      }
-    }
-
-    public findAllUser1_result deepCopy() {
-      return new findAllUser1_result(this);
-    }
-
-    @Override
-    public void clear() {
-      this.success = null;
-    }
-
-    public int getSuccessSize() {
-      return (this.success == null) ? 0 : this.success.size();
-    }
-
-    public java.util.Iterator<one.show.user.thrift.view.UserView> getSuccessIterator() {
-      return (this.success == null) ? null : this.success.iterator();
-    }
-
-    public void addToSuccess(one.show.user.thrift.view.UserView elem) {
-      if (this.success == null) {
-        this.success = new ArrayList<one.show.user.thrift.view.UserView>();
-      }
-      this.success.add(elem);
-    }
-
-    public List<one.show.user.thrift.view.UserView> getSuccess() {
-      return this.success;
-    }
-
-    public findAllUser1_result setSuccess(List<one.show.user.thrift.view.UserView> success) {
-      this.success = success;
-      return this;
-    }
-
-    public void unsetSuccess() {
-      this.success = null;
-    }
-
-    /** Returns true if field success is set (has been assigned a value) and false otherwise */
-    public boolean isSetSuccess() {
-      return this.success != null;
-    }
-
-    public void setSuccessIsSet(boolean value) {
-      if (!value) {
-        this.success = null;
-      }
-    }
-
-    public void setFieldValue(_Fields field, Object value) {
-      switch (field) {
-      case SUCCESS:
-        if (value == null) {
-          unsetSuccess();
-        } else {
-          setSuccess((List<one.show.user.thrift.view.UserView>)value);
-        }
-        break;
-
-      }
-    }
-
-    public Object getFieldValue(_Fields field) {
-      switch (field) {
-      case SUCCESS:
-        return getSuccess();
-
-      }
-      throw new IllegalStateException();
-    }
-
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
-    public boolean isSet(_Fields field) {
-      if (field == null) {
-        throw new IllegalArgumentException();
-      }
-
-      switch (field) {
-      case SUCCESS:
-        return isSetSuccess();
-      }
-      throw new IllegalStateException();
-    }
-
-    @Override
-    public boolean equals(Object that) {
-      if (that == null)
-        return false;
-      if (that instanceof findAllUser1_result)
-        return this.equals((findAllUser1_result)that);
-      return false;
-    }
-
-    public boolean equals(findAllUser1_result that) {
-      if (that == null)
-        return false;
-
-      boolean this_present_success = true && this.isSetSuccess();
-      boolean that_present_success = true && that.isSetSuccess();
-      if (this_present_success || that_present_success) {
-        if (!(this_present_success && that_present_success))
-          return false;
-        if (!this.success.equals(that.success))
-          return false;
-      }
-
-      return true;
-    }
-
-    @Override
-    public int hashCode() {
-      return 0;
-    }
-
-    public int compareTo(findAllUser1_result other) {
-      if (!getClass().equals(other.getClass())) {
-        return getClass().getName().compareTo(other.getClass().getName());
-      }
-
-      int lastComparison = 0;
-      findAllUser1_result typedOther = (findAllUser1_result)other;
-
-      lastComparison = Boolean.valueOf(isSetSuccess()).compareTo(typedOther.isSetSuccess());
-      if (lastComparison != 0) {
-        return lastComparison;
-      }
-      if (isSetSuccess()) {
-        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.success, typedOther.success);
-        if (lastComparison != 0) {
-          return lastComparison;
-        }
-      }
-      return 0;
-    }
-
-    public _Fields fieldForId(int fieldId) {
-      return _Fields.findByThriftId(fieldId);
-    }
-
-    public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
-      schemes.get(iprot.getScheme()).getScheme().read(iprot, this);
-    }
-
-    public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
-      schemes.get(oprot.getScheme()).getScheme().write(oprot, this);
-      }
-
-    @Override
-    public String toString() {
-      StringBuilder sb = new StringBuilder("findAllUser1_result(");
-      boolean first = true;
-
-      sb.append("success:");
-      if (this.success == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.success);
-      }
-      first = false;
-      sb.append(")");
-      return sb.toString();
-    }
-
-    public void validate() throws org.apache.thrift.TException {
-      // check for required fields
-      // check for sub-struct validity
-    }
-
-    private void writeObject(java.io.ObjectOutputStream out) throws java.io.IOException {
-      try {
-        write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
-      try {
-        read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
-      } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te);
-      }
-    }
-
-    private static class findAllUser1_resultStandardSchemeFactory implements SchemeFactory {
-      public findAllUser1_resultStandardScheme getScheme() {
-        return new findAllUser1_resultStandardScheme();
-      }
-    }
-
-    private static class findAllUser1_resultStandardScheme extends StandardScheme<findAllUser1_result> {
-
-      public void read(org.apache.thrift.protocol.TProtocol iprot, findAllUser1_result struct) throws org.apache.thrift.TException {
-        org.apache.thrift.protocol.TField schemeField;
-        iprot.readStructBegin();
-        while (true)
-        {
-          schemeField = iprot.readFieldBegin();
-          if (schemeField.type == org.apache.thrift.protocol.TType.STOP) { 
-            break;
-          }
-          switch (schemeField.id) {
-            case 0: // SUCCESS
-              if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
-                {
-                  org.apache.thrift.protocol.TList _list168 = iprot.readListBegin();
-                  struct.success = new ArrayList<one.show.user.thrift.view.UserView>(_list168.size);
-                  for (int _i169 = 0; _i169 < _list168.size; ++_i169)
-                  {
-                    one.show.user.thrift.view.UserView _elem170; // required
-                    _elem170 = new one.show.user.thrift.view.UserView();
-                    _elem170.read(iprot);
-                    struct.success.add(_elem170);
-                  }
-                  iprot.readListEnd();
-                }
-                struct.setSuccessIsSet(true);
-              } else { 
-                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-              }
-              break;
-            default:
-              org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
-          }
-          iprot.readFieldEnd();
-        }
-        iprot.readStructEnd();
-
-        // check for required fields of primitive type, which can't be checked in the validate method
-        struct.validate();
-      }
-
-      public void write(org.apache.thrift.protocol.TProtocol oprot, findAllUser1_result struct) throws org.apache.thrift.TException {
-        struct.validate();
-
-        oprot.writeStructBegin(STRUCT_DESC);
-        if (struct.success != null) {
-          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-          {
-            oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.success.size()));
-            for (one.show.user.thrift.view.UserView _iter171 : struct.success)
-            {
-              _iter171.write(oprot);
-            }
-            oprot.writeListEnd();
-          }
-          oprot.writeFieldEnd();
-        }
-        oprot.writeFieldStop();
-        oprot.writeStructEnd();
-      }
-
-    }
-
-    private static class findAllUser1_resultTupleSchemeFactory implements SchemeFactory {
-      public findAllUser1_resultTupleScheme getScheme() {
-        return new findAllUser1_resultTupleScheme();
-      }
-    }
-
-    private static class findAllUser1_resultTupleScheme extends TupleScheme<findAllUser1_result> {
-
-      @Override
-      public void write(org.apache.thrift.protocol.TProtocol prot, findAllUser1_result struct) throws org.apache.thrift.TException {
-        TTupleProtocol oprot = (TTupleProtocol) prot;
-        BitSet optionals = new BitSet();
-        if (struct.isSetSuccess()) {
-          optionals.set(0);
-        }
-        oprot.writeBitSet(optionals, 1);
-        if (struct.isSetSuccess()) {
-          {
-            oprot.writeI32(struct.success.size());
-            for (one.show.user.thrift.view.UserView _iter172 : struct.success)
-            {
-              _iter172.write(oprot);
-            }
-          }
-        }
-      }
-
-      @Override
-      public void read(org.apache.thrift.protocol.TProtocol prot, findAllUser1_result struct) throws org.apache.thrift.TException {
-        TTupleProtocol iprot = (TTupleProtocol) prot;
-        BitSet incoming = iprot.readBitSet(1);
-        if (incoming.get(0)) {
-          {
-            org.apache.thrift.protocol.TList _list173 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-            struct.success = new ArrayList<one.show.user.thrift.view.UserView>(_list173.size);
-            for (int _i174 = 0; _i174 < _list173.size; ++_i174)
-            {
-              one.show.user.thrift.view.UserView _elem175; // required
-              _elem175 = new one.show.user.thrift.view.UserView();
-              _elem175.read(iprot);
-              struct.success.add(_elem175);
             }
           }
           struct.setSuccessIsSet(true);
@@ -46790,14 +46048,14 @@ public class UserServiceProxy {
             case 0: // SUCCESS
               if (schemeField.type == org.apache.thrift.protocol.TType.LIST) {
                 {
-                  org.apache.thrift.protocol.TList _list176 = iprot.readListBegin();
-                  struct.success = new ArrayList<one.show.user.thrift.view.RobotView>(_list176.size);
-                  for (int _i177 = 0; _i177 < _list176.size; ++_i177)
+                  org.apache.thrift.protocol.TList _list168 = iprot.readListBegin();
+                  struct.success = new ArrayList<one.show.user.thrift.view.RobotView>(_list168.size);
+                  for (int _i169 = 0; _i169 < _list168.size; ++_i169)
                   {
-                    one.show.user.thrift.view.RobotView _elem178; // required
-                    _elem178 = new one.show.user.thrift.view.RobotView();
-                    _elem178.read(iprot);
-                    struct.success.add(_elem178);
+                    one.show.user.thrift.view.RobotView _elem170; // required
+                    _elem170 = new one.show.user.thrift.view.RobotView();
+                    _elem170.read(iprot);
+                    struct.success.add(_elem170);
                   }
                   iprot.readListEnd();
                 }
@@ -46825,9 +46083,9 @@ public class UserServiceProxy {
           oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
           {
             oprot.writeListBegin(new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, struct.success.size()));
-            for (one.show.user.thrift.view.RobotView _iter179 : struct.success)
+            for (one.show.user.thrift.view.RobotView _iter171 : struct.success)
             {
-              _iter179.write(oprot);
+              _iter171.write(oprot);
             }
             oprot.writeListEnd();
           }
@@ -46858,9 +46116,9 @@ public class UserServiceProxy {
         if (struct.isSetSuccess()) {
           {
             oprot.writeI32(struct.success.size());
-            for (one.show.user.thrift.view.RobotView _iter180 : struct.success)
+            for (one.show.user.thrift.view.RobotView _iter172 : struct.success)
             {
-              _iter180.write(oprot);
+              _iter172.write(oprot);
             }
           }
         }
@@ -46872,14 +46130,14 @@ public class UserServiceProxy {
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
           {
-            org.apache.thrift.protocol.TList _list181 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
-            struct.success = new ArrayList<one.show.user.thrift.view.RobotView>(_list181.size);
-            for (int _i182 = 0; _i182 < _list181.size; ++_i182)
+            org.apache.thrift.protocol.TList _list173 = new org.apache.thrift.protocol.TList(org.apache.thrift.protocol.TType.STRUCT, iprot.readI32());
+            struct.success = new ArrayList<one.show.user.thrift.view.RobotView>(_list173.size);
+            for (int _i174 = 0; _i174 < _list173.size; ++_i174)
             {
-              one.show.user.thrift.view.RobotView _elem183; // required
-              _elem183 = new one.show.user.thrift.view.RobotView();
-              _elem183.read(iprot);
-              struct.success.add(_elem183);
+              one.show.user.thrift.view.RobotView _elem175; // required
+              _elem175 = new one.show.user.thrift.view.RobotView();
+              _elem175.read(iprot);
+              struct.success.add(_elem175);
             }
           }
           struct.setSuccessIsSet(true);

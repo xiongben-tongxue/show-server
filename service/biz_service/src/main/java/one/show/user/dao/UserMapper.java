@@ -27,15 +27,27 @@ import com.souyu.shard.annotation.ShardBy;
 @Component("userMapper")
 @DAO(catalog = "user")
 public interface UserMapper {
-	@DataSource("dbUserReadShard0")
-	@SelectProvider(type = Provider.class, method = "findAllUsers")
-	@Results({ @Result(column = "popular_no", property = "popularNo")})
-	public List<User> findAllUsers0(@Param("tbid") Integer tbid);
+	@DataSource("manageRead")
+	@Results({ @Result(column = "fan_level", property = "fanLevel"),
+		@Result(column = "master_level", property = "masterLevel"),
+		@Result(column = "last_logintime", property = "lastLogintime"),
+		@Result(column = "last_livetime", property = "lastLivetime"),
+		@Result(column = "sign_status", property = "signStatus"),
+		@Result(column = "popular_no", property = "popularNo"),
+		@Result(column = "create_time", property = "createTime"),
+		@Result(column = "profile_img", property = "profileImg"),
+		@Result(column = "ry_token", property = "ryToken"),
+		@Result(column = "device_uuid", property = "deviceUuid"),
+		@Result(column = "is_new", property = "isNew"),
+		@Result(column = "is_admin", property = "isAdmin"),
+		@Result(column = "last_login_type", property = "lastLoginType"),
+		@Result(column = "notify_config", property = "notifyConfig"),
+		@Result(column = "phone_number", property = "phoneNumber"),
+		@Result(column = "family_id", property = "familyId")})
+	@Select("select id,fan_level,islive,nickname,master_level,last_logintime,last_livetime,is_admin,last_login_type,role,sign_status,popular_no,create_time,isrobot,latitude,longitude,gender,profile_img,city,active,age,constellation,description,ry_token,device_uuid,is_new,notify_config,phone_number,family_id from t_user limit #{start}, #{count}")
+
+	public List<User> findAllUsersList(@Param("start") Integer start, @Param("count") Integer count);
 	
-	@DataSource("dbUserReadShard1")
-	@SelectProvider(type = Provider.class, method = "findAllUsers")
-	@Results({ @Result(column = "popular_no", property = "popularNo")})
-	public List<User> findAllUsers1(@Param("tbid") Integer tbid);
 	
 	
 	@DataSource("manageRead")
@@ -81,10 +93,6 @@ public interface UserMapper {
 
     public static class Provider {
     	
-    	public String findAllUsers(Map<String, Object> params) {
-    			Integer tbid = (Integer)params.get("tbid");
-    			return "select id, nickname, popular_no from t_user_"+tbid;
-        }
     	 
         public String findByIds(Map<String, Object> params) {
             List<Long> ids = (List<Long>) params.get("ids");

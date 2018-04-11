@@ -21,31 +21,6 @@
 
 	<bean class="one.show.init.BKInit" />
     
-    <bean id="agentInterceptor" class="one.show.interceptor.AgentInterceptor"/>
-    
-	<bean id="securityInterceptor" class="one.show.interceptor.SecurityInterceptor"/>
-          
- 	<bean id="apiMonitorInterceptor" class="one.show.interceptor.ApiMonitorInterceptor"/>
-          
-    <bean id="userInterceptor" class="one.show.interceptor.UserInterceptor"/>
-
-	<bean id="authInterceptor" class="one.show.interceptor.AuthInterceptor"/>
-
-	<bean id="logInterceptor" class="one.show.interceptor.LogInterceptor"/>
-
-    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
-        <property name="interceptors">
-            <list>
-            	<ref bean="logInterceptor"/>
-				<ref bean="apiMonitorInterceptor"/>
-            	<ref bean="agentInterceptor"/>
-            	<ref bean="securityInterceptor"/>
-            	<ref bean="authInterceptor"/>
-                <ref bean="userInterceptor"/>
-            </list>
-        </property>
-    </bean>
-
 </beans>
 
 

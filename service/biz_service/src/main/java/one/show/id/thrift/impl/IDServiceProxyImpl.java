@@ -21,7 +21,7 @@ public class IDServiceProxyImpl implements Iface{
 	}
 
 	/* (non-Javadoc)
-	 * @see com.weipai.id.thrift.iface.IDServiceProxy.Iface#nextPid()
+	 * @see one.show.id.thrift.iface.IDServiceProxy.Iface#nextPid()
 	 */
 	@Override
 	public long nextPid() throws TException {
@@ -30,7 +30,7 @@ public class IDServiceProxyImpl implements Iface{
 	}
 
 	/* (non-Javadoc)
-	 * @see com.weipai.id.thrift.iface.IDServiceProxy.Iface#nextIdAndPid()
+	 * @see one.show.id.thrift.iface.IDServiceProxy.Iface#nextIdAndPid()
 	 */
 	@Override
 	public IDView nextIdAndPid() throws TException {

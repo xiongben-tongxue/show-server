@@ -14,7 +14,7 @@
 		  <property name="idleTime" value="1800000"></property>
 		  <property name="addressProvider">
 			    <bean class="one.show.common.client.thrift.DynamicAddressProvider">
-			      	<property name="configPath" value="manage"></property>
+			      	<property name="configPath" value="biz"></property>
 			      	<property name="port" value="8419"></property>
 			    </bean>
 		  </property>
@@ -26,7 +26,7 @@
 		  <property name="idleTime" value="1800000"></property>
 		  <property name="addressProvider">
 			    <bean class="one.show.common.client.thrift.DynamicAddressProvider">
-			      	<property name="configPath" value="user"></property>
+			      	<property name="configPath" value="biz"></property>
 			      	<property name="port" value="7911"></property>
 			    </bean>
 		  </property>
@@ -38,7 +38,7 @@
 		  <property name="idleTime" value="1800000"></property>
 		  <property name="addressProvider">
 			    <bean class="one.show.common.client.thrift.DynamicAddressProvider">
-			      	<property name="configPath" value="user"></property>
+			      	<property name="configPath" value="biz"></property>
 			      	<property name="port" value="7912"></property>
 			    </bean>
 		  </property>
@@ -50,7 +50,7 @@
 		  <property name="idleTime" value="1800000"></property>
 		  <property name="addressProvider">
 			    <bean class="one.show.common.client.thrift.DynamicAddressProvider">
-			      	<property name="configPath" value="user"></property>
+			      	<property name="configPath" value="biz"></property>
 			      	<property name="port" value="7913"></property>
 			    </bean>
 		  </property>
@@ -62,7 +62,7 @@
 		  <property name="idleTime" value="1800000"></property>
 		  <property name="addressProvider">
 			    <bean class="one.show.common.client.thrift.DynamicAddressProvider">
-			      	<property name="configPath" value="user"></property>
+			      	<property name="configPath" value="biz"></property>
 			      	<property name="port" value="7914"></property>
 			    </bean>
 		  </property>
@@ -87,7 +87,7 @@
 		  <property name="idleTime" value="1800000"></property>
 		  <property name="addressProvider">
 			    <bean class="one.show.common.client.thrift.DynamicAddressProvider">
-			      	<property name="configPath" value="stat"></property>
+			      	<property name="configPath" value="biz"></property>
 			      	<property name="port" value="8911"></property>
 			    </bean>
 		  </property>
@@ -100,7 +100,7 @@
 		  <property name="idleTime" value="1800000"></property>
 		  <property name="addressProvider">
 			    <bean class="one.show.common.client.thrift.DynamicAddressProvider">
-			      	<property name="configPath" value="video"></property>
+			      	<property name="configPath" value="biz"></property>
 			      	<property name="port" value="8012"></property>
 			    </bean>
 		  </property>
@@ -125,7 +125,7 @@
 		  <property name="idleTime" value="1800000"></property>
 		  <property name="addressProvider">
 			    <bean class="one.show.common.client.thrift.DynamicAddressProvider">
-			      	<property name="configPath" value="manage"></property>
+			      	<property name="configPath" value="biz"></property>
 			      	<property name="port" value="8418"></property>
 			    </bean>
 		  </property>
@@ -136,7 +136,7 @@
 		  <property name="idleTime" value="1800000"></property>
 		  <property name="addressProvider">
 			    <bean class="one.show.common.client.thrift.DynamicAddressProvider">
-			      	<property name="configPath" value="manage"></property>
+			      	<property name="configPath" value="biz"></property>
 			      	<property name="port" value="8416"></property>
 			    </bean>
 		  </property>
@@ -148,7 +148,7 @@
 		  <property name="idleTime" value="1800000"></property>
 		  <property name="addressProvider">
 			    <bean class="one.show.common.client.thrift.DynamicAddressProvider">
-			      	<property name="configPath" value="manage"></property>
+			      	<property name="configPath" value="biz"></property>
 			      	<property name="port" value="8417"></property>
 			    </bean>
 		  </property>
@@ -163,7 +163,7 @@
 		  <property name="addressProviderList">
                  <list>
                          <bean class="one.show.common.client.thrift.StaticAddressProvider">
-                                 <property name="configPath" value="search"></property>
+                                 <property name="configPath" value="biz"></property>
                                  <property name="host" value="search1.xiubi.com"></property>
                                  <property name="port" value="8338"></property>
                          </bean>
@@ -178,7 +178,7 @@
           </property>
 		  <property name="addressProvider">
 			    <bean class="one.show.common.client.thrift.DynamicAddressProvider">
-			      	<property name="configPath" value="search"></property>
+			      	<property name="configPath" value="biz"></property>
 			      	<property name="port" value="8338"></property>
 			    </bean>
 		  </property>
@@ -191,7 +191,7 @@
 		  <property name="idleTime" value="1800000"></property>
 		  <property name="addressProvider">
 			    <bean class="one.show.common.client.thrift.DynamicAddressProvider">
-			      	<property name="configPath" value="pay"></property>
+			      	<property name="configPath" value="biz"></property>
 			      	<property name="port" value="8612"></property>
 			    </bean>
 		  </property>
@@ -203,7 +203,7 @@
 		  <property name="idleTime" value="1800000"></property>
 		  <property name="addressProvider">
 			    <bean class="one.show.common.client.thrift.DynamicAddressProvider">
-			      	<property name="configPath" value="user"></property>
+			      	<property name="configPath" value="biz"></property>
 			      	<property name="port" value="6912"></property>
 			    </bean>
 		  </property>

@@ -1,15 +1,16 @@
 package one.show.interceptor;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import one.show.api.BaseApi;
 import one.show.common.IPUtil;
 import one.show.common.JacksonUtil;
 
@@ -75,14 +76,12 @@ public class LogInterceptor  implements HandlerInterceptor {
         for (String headerName : headerNames) {
             headers.put(headerName, httpServletResponse.getHeader(headerName));
         }
-
+        
+        
+        
+        
         map.put("headers", headers);
-
-        Map json_result = ((BaseApi) apiHandler).getReturnJson();
-        if (json_result != null) {
-            map.put("body", json_result);
-        }
-
+        
         log.info(JacksonUtil.writeToJsonString(map));
     }
 

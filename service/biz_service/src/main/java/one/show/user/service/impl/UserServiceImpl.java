@@ -63,22 +63,14 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public List<User> findAllUsers0(Integer tbid)throws ServiceException {
+	public List<User> findAllUsersList(Integer start, Integer count)throws ServiceException {
 		try {
-			return userMapper.findAllUsers0(tbid);
+			return userMapper.findAllUsersList(start, count);
 		} catch (Exception e) {
 			throw new ServiceException(e);
 		}
 	}
 
-	@Override
-	public List<User> findAllUsers1(Integer tbid)throws ServiceException {
-		try {
-			return userMapper.findAllUsers1(tbid);
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
-	}
 
 	@Override
 	public void deletetUser(Long id) throws ServiceException {

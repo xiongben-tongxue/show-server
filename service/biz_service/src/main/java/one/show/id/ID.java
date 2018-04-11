@@ -78,7 +78,7 @@ public class ID extends BaseZookeeper{
 
 
 	/* (non-Javadoc)
-	 * @see com.weipai.common.zk.BaseZookeeper#nodeChildrenChanged(org.apache.zookeeper.WatchedEvent)
+	 * @see one.show.common.zk.BaseZookeeper#nodeChildrenChanged(org.apache.zookeeper.WatchedEvent)
 	 */
 	@Override
 	public void nodeChildrenChanged(WatchedEvent event) {
@@ -88,7 +88,7 @@ public class ID extends BaseZookeeper{
 
 
 	/* (non-Javadoc)
-	 * @see com.weipai.common.zk.BaseZookeeper#connected(org.apache.zookeeper.WatchedEvent)
+	 * @see one.show.common.zk.BaseZookeeper#connected(org.apache.zookeeper.WatchedEvent)
 	 */
 	@Override
 	public void connected(WatchedEvent event) {

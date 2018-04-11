@@ -10,14 +10,14 @@ import java.util.Random;
 
 import one.show.common.Adapter;
 import one.show.common.Constant;
-import one.show.common.JacksonUtil;
-import one.show.common.RandomUtils;
 import one.show.common.Constant.CDN;
 import one.show.common.Constant.LIVE_END_REASON;
 import one.show.common.Constant.LIVE_STATUS;
 import one.show.common.Constant.STATUS;
 import one.show.common.Constant.STAT_ACTION;
 import one.show.common.Constant.WANGSU_NGB;
+import one.show.common.JacksonUtil;
+import one.show.common.RandomUtils;
 import one.show.common.cache.LocalCache;
 import one.show.common.cdn.WCNGBSDK;
 import one.show.common.client.redis.JedisUtil;
@@ -25,13 +25,23 @@ import one.show.common.exception.ServiceException;
 import one.show.common.im.ChatRoomMessage;
 import one.show.common.im.IMUtils;
 import one.show.common.im.MessageFactory;
-import one.show.common.local.XThreadLocal;
 import one.show.common.mq.Publisher;
 import one.show.common.mq.Queue;
+import one.show.id.thrift.iface.IDServiceProxy;
+import one.show.manage.thrift.view.SystemConfigView;
+import one.show.manage.thrift.view.UserCDNView;
 import one.show.service.ManageService;
 import one.show.service.StatService;
 import one.show.service.UserService;
 import one.show.service.VideoService;
+import one.show.stat.thrift.view.VideoStatView;
+import one.show.user.thrift.view.UserView;
+import one.show.video.thrift.iface.VideoServiceProxy;
+import one.show.video.thrift.view.LiveHistoryView;
+import one.show.video.thrift.view.LiveHistoryViewList;
+import one.show.video.thrift.view.LiveRecordView;
+import one.show.video.thrift.view.LiveUserView;
+import one.show.video.thrift.view.LiveView;
 
 import org.apache.thrift.TException;
 import org.json.JSONArray;
@@ -42,19 +52,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import one.show.id.thrift.iface.IDServiceProxy;
-import one.show.manage.thrift.view.SystemConfigView;
-import one.show.manage.thrift.view.UserCDNView;
-import one.show.stat.thrift.view.VideoStatView;
-import one.show.stream.thrift.iface.StreamServiceProxy;
-import one.show.stream.thrift.view.StreamView;
-import one.show.user.thrift.view.UserView;
-import one.show.video.thrift.iface.VideoServiceProxy;
-import one.show.video.thrift.view.LiveHistoryView;
-import one.show.video.thrift.view.LiveHistoryViewList;
-import one.show.video.thrift.view.LiveRecordView;
-import one.show.video.thrift.view.LiveUserView;
-import one.show.video.thrift.view.LiveView;
+import scala.collection.immutable.StreamView;
 
 /**
  * 
@@ -72,8 +70,8 @@ public class VideoServiceImpl implements VideoService {
 	@Autowired
 	private VideoServiceProxy.Iface videoServiceClientProxy;
 	
-	@Autowired
-	private StreamServiceProxy.Iface streamServiceClientProxy;
+//	@Autowired
+//	private StreamServiceProxy.Iface streamServiceClientProxy;
 	
 	@Autowired
 	private IDServiceProxy.Iface idServiceClientProxy;
@@ -173,12 +171,12 @@ public class VideoServiceImpl implements VideoService {
 	@Override
 	public void openStream(LiveView liveView) throws ServiceException {
 
-		try {
-			streamServiceClientProxy.init(liveView.getStreamName(), liveView.getCdnType(), liveView.getRtmp());
-			
-		} catch (TException e) {
-			throw new ServiceException(e);
-		}
+//		try {
+//			streamServiceClientProxy.init(liveView.getStreamName(), liveView.getCdnType(), liveView.getRtmp());
+//			
+//		} catch (TException e) {
+//			throw new ServiceException(e);
+//		}
 	}
 
 	@Override
@@ -187,7 +185,7 @@ public class VideoServiceImpl implements VideoService {
 		try {
 			videoServiceClientProxy.endLive(liveView.getLiveId(), liveView.getReason());
 			
-			streamServiceClientProxy.close(liveView.getStreamName(), liveView.getCdnType(), liveView.getRtmp());
+//			streamServiceClientProxy.close(liveView.getStreamName(), liveView.getCdnType(), liveView.getRtmp());
 			
 			if(liveView.getReason()==LIVE_END_REASON.AUDIT.ordinal()){
 				deleteHistory(liveView.getUid(), liveView.getLiveId());
@@ -234,15 +232,15 @@ public class VideoServiceImpl implements VideoService {
 	}
 
 
-	@Override
-	public List<StreamView> getAllStreamList() throws ServiceException {
-		try {
-			return streamServiceClientProxy.getAllStreamList();
-			
-		} catch (TException e) {
-			throw new ServiceException(e);
-		}
-	}
+//	@Override
+//	public List<StreamView> getAllStreamList() throws ServiceException {
+//		try {
+//			return streamServiceClientProxy.getAllStreamList();
+//			
+//		} catch (TException e) {
+//			throw new ServiceException(e);
+//		}
+//	}
 
 	@Override
 	public void updateLiveView(long liveId, Map<String, String> params)
@@ -605,11 +603,11 @@ public class VideoServiceImpl implements VideoService {
 	@Override
 	public void breakStream(LiveView liveView) throws ServiceException {
 
-		try {
-			streamServiceClientProxy.breakStream(liveView.getStreamName(), liveView.getCdnType(), liveView.getRtmp());
-		} catch (TException e) {
-			throw new ServiceException(e);
-		}
+//		try {
+//			streamServiceClientProxy.breakStream(liveView.getStreamName(), liveView.getCdnType(), liveView.getRtmp());
+//		} catch (TException e) {
+//			throw new ServiceException(e);
+//		}
 	}
 	
 	public static void main(String[] args) {

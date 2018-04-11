@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import one.show.common.exception.ServiceException;
-
-import one.show.stream.thrift.view.StreamView;
 import one.show.user.thrift.view.UserView;
 import one.show.video.thrift.view.LiveHistoryView;
 import one.show.video.thrift.view.LiveHistoryViewList;
@@ -46,7 +44,7 @@ public interface VideoService {
 	
 	public void breakStream(LiveView liveView) throws ServiceException;
 	
-	public List<StreamView> getAllStreamList() throws ServiceException;
+//	public List<StreamView> getAllStreamList() throws ServiceException;
 	
 	public void endLive(LiveView liveView) throws ServiceException;
 	

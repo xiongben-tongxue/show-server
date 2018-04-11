@@ -7,7 +7,7 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
         
-    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+ <bean id="contentNegotiationManager"  class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
         <!-- 设置为true以忽略对Accept Header的支持-->
         <property name="ignoreAcceptHeader" value="true"/>
         <!-- true，开启扩展名支持，false关闭支持 -->
@@ -19,22 +19,23 @@
         <!-- 参数值至mimeType的映射,即 /rest?format=json json是key，application/json就是value 暂时只支持json和xml -->
 
         <property name="mediaTypes">
-            <map>
-                <entry key="json" value="application/json"/>
-                <entry key="xml" value="application/xml"/>
-            </map>
+        	<value>
+                json=application/json
+                xml=application/xml
+                html=text/html
+            </value>
         </property>
         <!-- <property name="viewResolvers">
             关闭所有的解析器，防止它在查找候选视图时多个解析器都运行
             <list></list>
         </property> -->
-        <property name="defaultViews">
+        <property name="messageConverters">
             <list>
-                <!-- for application/json -->
-                <bean class="one.show.mapper.MappingJackson2JsonViewEx"/>
+                <bean
+                    class="one.show.mapper.MappingJackson2JsonViewEx">
+                </bean>
             </list>
         </property>
-
     </bean>
 
     

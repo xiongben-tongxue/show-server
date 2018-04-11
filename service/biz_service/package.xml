@@ -14,6 +14,10 @@
             </includes>  
         </fileSet>
          <fileSet>
+            <directory>src/main/script</directory>
+            <outputDirectory>/</outputDirectory>
+        </fileSet>
+         <fileSet>
             <directory>src/main/bin</directory>
             <outputDirectory>/</outputDirectory>
         </fileSet>

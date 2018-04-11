@@ -628,30 +628,11 @@ public class UserServiceProxyImpl implements Iface{
 	}
 
 	@Override
-	public List<UserView> findAllUser0(int tbid) throws TException {
+	public List<UserView> findAllUserList(int start, int count) throws TException {
 		
 		List<UserView> list = null;
 		try {
-			List<User> users = userService.findAllUsers0(tbid);
-			if(users!=null){
-				list = new ArrayList<UserView>();
-				for(User user:users){
-					UserView userView = new UserView();
-					BeanUtils.copyProperties(user, userView);
-					list.add(userView);
-				}
-			}
-		} catch (Exception e) {
-			throw new TException(e);
-		}
-		return list;
-	}
-
-	@Override
-	public List<UserView> findAllUser1(int tbid) throws TException {
-		List<UserView> list = null;
-		try {
-			List<User> users = userService.findAllUsers1(tbid);
+			List<User> users = userService.findAllUsersList(start, count);
 			if(users!=null){
 				list = new ArrayList<UserView>();
 				for(User user:users){
