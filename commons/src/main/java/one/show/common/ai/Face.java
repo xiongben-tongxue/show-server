@@ -88,17 +88,5 @@ public class Face {
 	    return feature;
 		
 	}
-	
-	
-	public static void main(String[] args) {
-		 String imageStr = getImageStr("/Users/zw/Downloads/59e59cad8c19b0e4638fc66b.jpg");
-//		 ageDetection(imageStr);
-		 
-		 Fetch fetch = new Fetch();
-		 Map properties = new HashMap();
-		 properties.put("image", imageStr);
-		 String res = fetch.post("http://video-test.inner.seeyou.hifun.mobi/detection/face", properties);
-		 System.out.println("==========="+res);
-	}
 
 }

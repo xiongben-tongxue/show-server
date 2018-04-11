@@ -72,8 +72,4 @@ public class DateUtil {
 		}
 		throw new IllegalArgumentException("Type undefined : " + type);
 	}
-	
-	public static void main(String[] args) {
-		System.out.println(dateToStr(new Date(1617438991*1000)));
-	}
 }

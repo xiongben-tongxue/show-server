@@ -72,9 +72,5 @@ public class VideoStatServiceImpl implements VideoStatService {
 	public VideoStat findByVid(Long vid) {
 		return videoStatMapper.findByVid(vid);
 	}
-	public static void main(String[] args) {
-		 Logger log = LoggerFactory.getLogger("stdout");
-		 log.info("aaaaa");
-	}
 
 }

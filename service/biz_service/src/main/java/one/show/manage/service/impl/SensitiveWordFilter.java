@@ -323,17 +323,4 @@ public class SensitiveWordFilter implements Serializable{
             this.type = type;
         }
     }
-
-    public static void main(String[] args) {
-        SensitiveWordFilter swf = new SensitiveWordFilter();
-        swf.addFilterWord("DFA");
-        swf.addFilterWord("恶心");
-        swf.addFilterWord("DA");
-        swf.addFilterWord("中国");
-        swf.addFilterWord("国人");
-        // swf.addFilterWord("中国人");
-        swf.addFilterWord("中国人民");
-        String s = swf.doFilter("Hello DFA World DFA, HaHa! 恶心 DFAE 中国人 中国人民", "**");
-        System.out.println(s);
-    }
 }

@@ -133,24 +133,4 @@ public class SearchApi extends BaseApi {
 		result.put("list", userSearchList == null?new ArrayList():userSearchList);
 		return success(result);
 	}
-	
-	public static void main(String[] args) {
-		String keyword = "///哈\\哈 ()@#$%^&*()))_+";
-		// keyword首字母去掉以下字符
-		String exclude = "/\\-:()\"![]{}#%^*+=?~";
-		char[] excludeArray = exclude.toCharArray();
-		
-		for(int i=0; i<excludeArray.length; i++){
-			
-			if(keyword.startsWith(String.valueOf(excludeArray[i]))){
-				keyword = keyword.substring(1);
-				i=-1;
-			}
-		}
-		
-		keyword = keyword.replaceAll("\\ |\\(|\\)|\\[|\\]|\\{|\\}|\\/|\\^|\\-|\\$|\\||\\?|\\*|\\+|\\.|\\\"|\\!|\\:|\\?|\\~|\\+|\\#|\\%|\\\\", "");
-		System.out.println("keyword="+keyword);
-	}
-
-	
 }

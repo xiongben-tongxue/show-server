@@ -470,8 +470,4 @@ public class BaseApi implements HandlerExceptionResolver {
 		
 	}
 
-    public static void main(String[] args) {
-    	System.out.println(isNumber("7BEA7020-D4E1-42CB-B3B0-AAFF9C7384BE"));
-	}
-
 }

@@ -229,26 +229,4 @@ public class ChargeDetailLog implements Serializable{
 		}
 		return endTime;
 	}
-	public static void main(String[] args) {
-//		int a =1413634598;
-//		int endTime=0;
-//		Date vipDate = new Date((long)(1441776615));
-//		endTime = (int)(DateCalculateUtil.addMonth(vipDate, 1).getTime());
-//		System.out.println(new Date(DateCalculateUtil.addMonth(vipDate, 1).getTime()));
-//		System.out.println(vipDate);
-		SimpleDateFormat format = new SimpleDateFormat( "yyyy-MM-dd" );
-
-		 Long time=new Long(1442660167)*1000;
-
-		 String d = format.format(time);
-
-		 try {
-			Date date=format.parse(d);
-			System.out.println(d);
-		 } catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		 
-	}
 }

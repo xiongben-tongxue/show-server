@@ -6,11 +6,6 @@ import one.show.common.JacksonUtil;
 import one.show.common.TypeUtil;
 
 public class ActivityShareConfig {
-	//{"qq":5,"weibo":3,"weixin":4,"qzone":2,"maxPerUser":18,"percentByTimezone":[20,30,50]}
-	public static void main(String[] args) {
-		String str = "{\"qq\":5,\"weibo\":3,\"weixin\":4,\"qzone\":2,\"maxPerDay\":200,\"maxPerUser\":[20,30,50],\"percentByTimezone\":[20,30,50]}";
-		System.out.println(TypeUtil.typeToString("share", JacksonUtil.readJsonToObject(ActivityShareConfig.class, str)));
-	}
 	private int qq;
 	private int weibo;
 	private int qzone;
