@@ -102,9 +102,9 @@ public class ShellUtil {
     	System.out.println(new File(target).getPath());
     	/*
     	while(!new File(target).exists()){
-//    		String cmdStr = "/usr/local/bin/ffmpeg -ss 1 -t 3 -i http://play.supe.tv/594e207b3e57dcc21850b75e.mp4 -c:a copy -c:v libx264 -b:v 200k -s 275*480 -y -f webp "+target;
-//    		String cmdStr = "/usr/local/bin/ffmpeg -ss 1 -t 3 -i http://play.supe.tv/594e207b3e57dcc21850b75e.mp4 -c:a copy -c:v libx264 -b:v 200k -s 160*200 -f mp4 -y "+target;
-//    		String cmdStr = "/usr/local/bin/ffmpeg -ss 1 -t 3 -i http://play.supe.tv/594782fb7f0adcc2e63f1a95.mp4 -s 187*239 -f gif "+target;
+//    		String cmdStr = "/usr/local/bin/ffmpeg -ss 1 -t 3 -i http://play.xiubi.come/594e207b3e57dcc21850b75e.mp4 -c:a copy -c:v libx264 -b:v 200k -s 275*480 -y -f webp "+target;
+//    		String cmdStr = "/usr/local/bin/ffmpeg -ss 1 -t 3 -i http://play.xiubi.come/594e207b3e57dcc21850b75e.mp4 -c:a copy -c:v libx264 -b:v 200k -s 160*200 -f mp4 -y "+target;
+//    		String cmdStr = "/usr/local/bin/ffmpeg -ss 1 -t 3 -i http://play.xiubi.come/594782fb7f0adcc2e63f1a95.mp4 -s 187*239 -f gif "+target;
     		String cmdStr = "ls -all";
     		try {
     			System.out.println(exec(cmdStr.split(" ")));

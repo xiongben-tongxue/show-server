@@ -15,8 +15,7 @@ public class MailSenderFactory {
      */
     public static SimpleMailSender getSender() {
         if (serviceSms == null) {
-        		serviceSms = new SimpleMailSender("noreply@hifun.mobi", "JBgRE9Dhe6GrpIvT");
-//        	serviceSms = new SimpleMailSender("alarm@hifun.mobi", "K5WF3mUE1kSCyhQA");
+        		serviceSms = new SimpleMailSender("noreply@show.one", "123456");
         }
         return serviceSms;
     }

@@ -17,9 +17,9 @@ import java.util.Properties;
 public class MailUtil {
     private static final String HOST = "smtp.gmail.com";
     private static final Integer PORT = 465;
-    private static final String USERNAME = "showone@bling.plus";
-    private static final String PASSWORD = "showoneBling2018";
-    private static final String emailForm = "showone@bling.plus";
+    private static final String USERNAME = "";
+    private static final String PASSWORD = "";
+    private static final String emailForm = "";
     private static final String timeout = "25000";
     private static final String personal = "showone";
     private static JavaMailSenderImpl mailSender = createMailSender();
@@ -65,7 +65,7 @@ public class MailUtil {
     
     public static void main(String[] args) {
 		try {
-			sendMail("liuhan@hifun.mobi", "maileutil test",  "maileutil test cotent");
+			sendMail("hank@show.one", "maileutil test",  "maileutil test cotent");
 		} catch (UnsupportedEncodingException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -20,12 +20,12 @@ public class WCSSafeLinkUtil {
 
 	private static final Logger log = LoggerFactory.getLogger(WCSSafeLinkUtil.class);
 	
-	public static final String key = "#7da@zNxVkbo5tg5";
+	public static final String key = "#";
 	
-	public final static String BUCKET_VIDEO = "wuli-video";
-	public final static String BUCKET_IMG =	"showone-images";
-	public static final String[] WULI_VIDEO_DOMAINS = {"play.showonelive.cn","video-01.ws.iyao.tv","video-01.ws.hifun.mobi","vp1.showonelive.cn"};
-	public static final String[] showone_IMG_DOMAINS = {"images.showonelive.cn","ip1.showonelive.cn","ip2.showonelive.cn","ip3.showonelive.cn"};
+	public final static String BUCKET_VIDEO = "";
+	public final static String BUCKET_IMG =	"";
+	public static final String[] WULI_VIDEO_DOMAINS = {""};
+	public static final String[] showone_IMG_DOMAINS = {""};
 
 	public static Map<String, String> domainToBucket = new ConcurrentHashMap<String, String>();
 	public static Map<String, List<String>> safeDomainList = new ConcurrentHashMap<String, List<String>>();
@@ -37,8 +37,8 @@ public class WCSSafeLinkUtil {
 		for(String domain:showone_IMG_DOMAINS){
 			domainToBucket.put(domain, BUCKET_IMG);
 		}
-		safeDomainList.put(BUCKET_VIDEO, ImmutableList.of("vp1.supe.tv","vp2.supe.tv","vp3.supe.tv"));
-		safeDomainList.put(BUCKET_IMG, ImmutableList.of("ip1.supe.tv","ip2.supe.tv","ip3.supe.tv"));
+		safeDomainList.put(BUCKET_VIDEO, ImmutableList.of(""));
+		safeDomainList.put(BUCKET_IMG, ImmutableList.of(""));
 	}
 	
 	public static void initSafeDomainList(String domainString){
@@ -89,8 +89,6 @@ public class WCSSafeLinkUtil {
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(getSafeLink("http://www.supe.tv/598078191761b0e46c1cea69.mp4", "36.110.113.131"));
-		System.out.println(getSafeLink("http://ip1.supe.tv/5983f33e58beb0e43de39d58.jpg", "36.110.113.131"));
 	}
 
 }

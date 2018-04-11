@@ -70,8 +70,8 @@ public class WCSSDK {
 	
 	public final static String UPLOAD_DOMAIN = "upload.showonelive.cn";
 	
-	public final static String DOWNLOAD_DOMAIN_VIDEO = "play.supe.tv";
-	public final static String DOWNLOAD_DOMAIN_IMG = "images.supe.tv";
+	public final static String DOWNLOAD_DOMAIN_VIDEO = "play.xiubi.come";
+	public final static String DOWNLOAD_DOMAIN_IMG = "images.xiubi.come";
 	
 	public final static String MGR_DOMAIN = "51renzhen.mgr5.v1.wcsapi.com";
 	
@@ -229,7 +229,7 @@ public class WCSSDK {
 			String newKey = ObjectId.get().toString()+".jpg";
 			newFile = "http://"+domain+"/"+newKey;
 			String destFile = new String(urlSafeEncodeBytes((bucket+":"+newKey).getBytes("utf-8")), "utf-8");
-			String waterFile = new String(urlSafeEncodeBytes(("http://play.supe.tv/"+WATER_FILE_KEY).getBytes("utf-8")), "utf-8");
+			String waterFile = new String(urlSafeEncodeBytes(("http://play.xiubi.come/"+WATER_FILE_KEY).getBytes("utf-8")), "utf-8");
 			String fops = "watermark/jpg/mode/1/gravity/TOP_RIGHT/dx/30/dy/30/image/"+waterFile+"|saveas/"+destFile;
 			String notifyURL = "http://"+Constant.DOMAIN+"/callback/cdn1/upload_test";
 			String force = "1";
@@ -372,96 +372,6 @@ public class WCSSDK {
 	}
 	
 	public static void main(String[] args) {
-//		String bucket ="lvying-video";
-//		List<FmgrParam> fmgrList = new ArrayList<FmgrParam>();
-//		FmgrParam param = new FmgrParam();
-//		param.setBucket(bucket);
-//		param.setFileKey("live-10000010_3AdWVcO9Fhdev--20160719201714.m3u8");
-//		fmgrList.add(param);
-//		deletem3u8(fmgrList, "http://"+Constant.CALLBACK_DOMAIN+"/callback/cdn1/upload_test", "1");
-		
-//		deleteFile(bucket, "charles.jar");
-		
-		
-//		long limitTime = DateUtil.parseDate("2017-03-01", "yyyy-MM-dd").getTime();
-//		
-//		Map<Integer, Long> map = new HashMap<Integer,  Long>();
-//		for(int i= 0;i<=12;i++){
-//			map.put(i, 0L);
-//		}
-//		String marker = "";
-//		long total = 0L;
-//		boolean contin = true;
-//		while(contin){
-//			//http://recordws.hifun.mobi/live-10016007_WPTuI9floz--20170116151946.flv?type=1
-//			//10016007、10046086、10075723
-//			FileListObject list = listFile(bucket,"live-10000010_3AdWVcO9Fhdev--20160719201714", marker, 1000);
-////			System.out.println(TypeUtil.typeToString("", list));
-//			if(list!=null){
-//				total+=list.getItems().size();
-//				for(FileMessageObject file:list.getItems()){
-////					if(Long.parseLong(file.getPutTime())>limitTime||file.getKey().contains("10016007")||file.getKey().contains("10046086")||file.getKey().contains("10075723")){
-////						continue;
-////					}
-//					log.info(DateUtil.minutePattern(Long.parseLong(file.getPutTime())));
-//					if(Long.parseLong(file.getPutTime())<limitTime){
-////						contin=false;
-//						System.out.println(TypeUtil.typeToString(new Date(Long.parseLong(file.getPutTime())).toString(), file));
-//						break;
-//					}
-//						
-//						
-//					Date date = new Date(Long.parseLong(file.getPutTime()));
-//					if(TimeUtil.getYear(date)==2017){
-//						int month = TimeUtil.getMonth(date);
-//						long l = map.get(month);
-//						map.put(month, l+Long.parseLong(file.getFsize())/1000000);
-//					}else{
-//						long l = map.get(0);
-//						map.put(0, l+Long.parseLong(file.getFsize())/1000000);
-//					}
-//				}
-//				if(StringUtils.isEmpty(list.getMarker())||list.getMarker().equals(marker)){
-//					break;
-//				}
-//				marker = list.getMarker();
-//			}
-//		}
-//		for(int i:map.keySet()){
-//			System.out.println(i+" 月文件总大小:"+map.get(i)+"M");
-//		}
-//		System.out.println(marker+",list file.total="+total);
-		
-//
-//		String str = "/fops\nnotifyURL=aHR0cDovL20uYmVrZS50di9jZG4xL2NvbmNhdF9ub3RpZnk=&bucket=YmVrZS0yMDE2MDYxNA==&fops=YXZjb25jYXQvbXA0L21vZGUvMS9jb25jYXRvcmRlci8xLTIvWW1WclpTMHlNREUyTURZeE5EcHNhWFpsTFRjME5UUTVNekk0TWpBeU5EUTJORE00TkY4eE5EWTJOVGMwTkRJekxTMHlNREUyTURZeU1qRXpORGN3TkM1dGNEUT0vWW1WclpTMHlNREUyTURZeE5EcHNhWFpsTFRjME5UUTVNekk0TWpBeU5EUTJORE00TkY4eE5EWTJOVGMwTkRJekxTMHlNREUyTURZeU1qRXpORGt5TUM1dGNEUT0=&force=1&key=YmVrZS0yMDE2MDYxNDpsaXZlLTc0NTQ5MzI4MjAyNDQ2NDM4NF8xNDY2NTc0NDIzLS0yMDE2MDYyMjEzNDcwNC5tcDQ=";
-//		System.out.println(getSignatureHmacSHA1(str.getBytes(),SK));
-//		
-//		System.out.println(str.substring(str.indexOf("/")+1));
-		
-
-//		File f = new File("/Users/Haliaeetus leucocephalus/Desktop/showone-release-2.0.0.2.apk");
-		
-//		File f = new File("/Users/hank/Desktop/file/test.mp4");
-//		File dirFile = new File("/Users/hank/Downloads/app-release-3.0.1.1");
-//		int error = 0;
-//		if(dirFile.isDirectory()){
-//			for(File f:dirFile.listFiles()){
-////				System.out.println(FilenameUtils.getBaseName(f.getName()));
-//				try {
-//					System.out.println(uploadFile(f,FilenameUtils.getBaseName(f.getName()),"apk",UPLOAD_USE_TYPE.NORMAL.ordinal()).getResult());
-//				} catch (ServiceException e) {
-//					error++;
-//					e.printStackTrace();
-//				}
-//			}
-//		}
-//		System.out.println("finished==================.error="+error);
-//		System.out.println(deleteFile(bucket, "5909ae9f3649acfd41f6888f.jpg"));
-		
-		
-//		System.out.println(getUploadToken(bucket));
-//		System.out.println(waterImg("http://play.supe.tv/591c2dafbc97dcc274adaf86.jpeg"));
-//		System.out.println(zoomFile("http://video-01.ws.hifun.mobi/58fdd5ca59f4b0e48b7d3c22.jpeg",200));
 		
 		System.out.println(getFastIp());
 	}

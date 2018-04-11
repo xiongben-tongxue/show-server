@@ -11,8 +11,7 @@ public class MailTest {
 	public static void main(String[] args) throws AddressException, MessagingException {
 		SimpleMailSender sms = MailSenderFactory.getSender();
 		List<String> recipients = new ArrayList<String>();
-	    recipients.add("Haliaeetus leucocephalus01@hifun.mobi");
-//	    recipients.add("liuhan@hifun.mobi");
+	    recipients.add("hank@show.one");
 	    
 	    sms.send(recipients, "TEST", "测试一下");
 	}
