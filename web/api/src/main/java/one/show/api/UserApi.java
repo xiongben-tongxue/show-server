@@ -17,12 +17,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import one.show.common.Adapter;
 import one.show.common.Constant;
+import one.show.common.Constant.FAMILY_TYPE;
+import one.show.common.Constant.ITEM_MONEY;
+import one.show.common.Constant.ITEM_PROP;
+import one.show.common.Constant.ITEM_TYPE;
 import one.show.common.Constant.LIVE_STATUS;
 import one.show.common.Constant.STATUS;
 import one.show.common.Constant.STAT_ACTION;
 import one.show.common.Constant.THIRD_BIND_PUBLIC_STATUS;
 import one.show.common.Constant.THIRD_DATA_TYPE;
 import one.show.common.DESUtil;
+import one.show.common.DateCalculateUtil;
 import one.show.common.JacksonUtil;
 import one.show.common.Loader;
 import one.show.common.MD5;
@@ -35,9 +40,14 @@ import one.show.common.local.XThreadLocal;
 import one.show.common.mq.Publisher;
 import one.show.common.mq.Queue;
 import one.show.manage.thrift.view.FanLevelView;
+import one.show.pay.thrift.view.StockView;
 import one.show.service.DeviceService;
+import one.show.service.FamilyService;
 import one.show.service.LoginService;
 import one.show.service.ManageService;
+import one.show.service.PayService;
+import one.show.service.RankService;
+import one.show.service.RelationService;
 import one.show.service.SearchService;
 import one.show.service.SensitiveService;
 import one.show.service.impl.EmailLoginServiceImpl;
@@ -47,6 +57,7 @@ import one.show.stat.thrift.view.UserStatView;
 import one.show.struc.LoginParam;
 import one.show.struc.SinaUserParam;
 import one.show.user.thrift.view.ContactView;
+import one.show.user.thrift.view.FamilyView;
 import one.show.user.thrift.view.ThirdBindView;
 import one.show.user.thrift.view.ThirdDataView;
 import one.show.user.thrift.view.UserView;
@@ -65,8 +76,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.tencent.service.PayService;
 
 @Controller
 // @Scope("prototype")
@@ -76,9 +87,15 @@ public class UserApi extends BaseApi {
 	// private ConcurrentHashMap<String,Object> current = new
 	// ConcurrentHashMap<String, Object>();
 	@Autowired
+	RelationService relationService;
+	@Autowired
 	ManageService manageService;
 	@Autowired
+	RankService rankService;
+	@Autowired
 	DeviceService deviceService;
+	@Autowired
+	FamilyService familyService;
 	@Autowired
 	SensitiveService sensitiveService;
 	@Autowired
@@ -161,8 +178,22 @@ public class UserApi extends BaseApi {
 		result.put("lastLoginType", userView.getLastLoginType());
 		result.put("islive", userView.getIslive());
 		result.put("notifyConfig", userView.getNotifyConfig());
+		result.put("is_vip",isVip(userView.getId()));
 		
 		//是否能提现
+		result.put("enable_tx",1);
+		if (userView.getFamilyId() > 0){
+			FamilyView familyView = null;
+			try {
+				familyView = familyService.findFamilyById(userView.getFamilyId());
+			} catch (ServiceException e) {
+				log.error(e.getMessage(), e);
+			}
+			if (familyView != null && familyView.getType().equals(FAMILY_TYPE.A.toString())){
+				result.put("enable_tx",0);
+			}
+		}
+		
 		
 		if(userid!=null && uid.longValue()!=userid.longValue()){
 			try {
@@ -224,6 +255,23 @@ public class UserApi extends BaseApi {
 		
 		
 		
+		Map<String, String> params = new HashMap<String, String>();
+		params.put("item_type",String.valueOf(ITEM_TYPE.MONEY.getId()));
+		List<StockView> stockGoldList = null;
+		try {
+			stockGoldList = payService.findStockByUidAndParam(target, params);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
+		int showCoinNum = 0;
+		if (stockGoldList!=null&&stockGoldList.size()>0) {
+			for(StockView stockView : stockGoldList){
+				if (stockView.getItemId() == ITEM_MONEY.SHOWCOIN.getId()){
+					showCoinNum =(int) (Math.round(stockView.getItemNumber()));
+				}
+			}
+		}
+		result.put("beikeNum", showCoinNum);
 		//
 		UserStatView statView = null;
 		try {
@@ -233,16 +281,27 @@ public class UserApi extends BaseApi {
 		}
 		
 		Integer fans = 0;
+		try {
+			fans = relationService.findFansCount(target);
+		} catch (ServiceException e) {
+			log.error(e.getMessage(), e);
+		}
 		result.put("fans", fans);
 		
 		Integer follow = 0;
+		try {
+			follow = relationService.findFollowCount(target);
+		} catch (ServiceException e) {
+			log.error(e.getMessage(), e);
+		}
 		result.put("follow", follow);
 		int videos = 0;
 		try {
 			Map<String, String> condition = new HashMap<String, String>();
 			condition.put("status", String.valueOf(STATUS.ENABLED.ordinal()));
 			condition.put("vod_status", String.valueOf(STATUS.ENABLED.ordinal()));
-			videos = videoService.getLiveHistoryCountByUid(target, condition);
+			condition.put("uid", String.valueOf(target));
+			videos = videoService.getLiveListCount(condition);
 		} catch (ServiceException e) {
 			log.error(e.getMessage(), e);
 		}
@@ -266,28 +325,70 @@ public class UserApi extends BaseApi {
 		result.put("toNextLevel", fanLevelView!=null? ((int)(fanLevelView.getExp()-totalExp)):0);
 		
 		boolean isFollowed = false;
+		if(uid!=target){
+			try {
+				List<Boolean> list = relationService.isFollowed(uid, ImmutableList.of(target));
+				if(list!=null && list.get(0).booleanValue()){
+					isFollowed=true;
+				}
+			} catch (ServiceException e) {
+				log.error("isfollowed error.",e);
+			}
+		}
 		result.put("isFollowed", isFollowed);
 		
 		boolean isFans = false;
+		if(uid!=target){
+			try {
+				List<Boolean> list = relationService.isFans(uid, ImmutableList.of(target));
+				if(list!=null && list.get(0).booleanValue()){
+					isFans=true;
+				}
+			} catch (ServiceException e) {
+				log.error("isfans error.",e);
+			}
+		}
 		result.put("isFans", isFans);
 		
 		
 		//绑定情况
-		List<ThirdBindView> thirdBindViewList = null;
+		List<ThirdDataView> thirdDataViewList = null;
 		try {
-			thirdBindViewList = userService.findThirdBindByUid(target);
+			thirdDataViewList = userService.findThirdDataListByUid(target);
 		} catch (Exception e) {
 			log.error(e.getMessage(), e);
 		}
 		List<String> binds = new ArrayList<String>();
-		if(thirdBindViewList!=null){
-			for(ThirdBindView tbv:thirdBindViewList){
+		if(thirdDataViewList!=null){
+			for(ThirdDataView tbv:thirdDataViewList){
 				binds.add(tbv.getType());
 			}
 		}
 		result.put("thirdBinds", binds);
 		
+		//守护榜
+		List<Map<String, Object>> resultList = null;
+        try {
+        	resultList = rankService.findDefenderList(target, 0, 20);
+        } catch (Exception e) {
+			log.error(e.getMessage(), e);
+		}
 	  
+		List<String> imgs = new ArrayList<String>();
+		if(resultList!=null){
+			for(Map<String, Object> map:resultList){
+				imgs.add((String)map.get("profileImg"));
+				if (imgs.size() == 3){
+					break;
+				}
+			}
+		}
+		if(imgs.size()<3){
+			for (int i = imgs.size(); i < 3; i++) {
+				imgs.add("");
+			}
+		}
+		result.put("defendUserImgs", imgs);
 		return success(result);
 	}
 
@@ -433,7 +534,6 @@ public class UserApi extends BaseApi {
 			@RequestParam(value = "third_type", required = true) final String thirdType,
 			@RequestParam(value = "third_token", required = false) final String thirdToken,
 			@RequestParam(value = "third_id", required = false) final String thirdId,
-			@RequestParam(value = "wx_usid", required = false) final String wxUsId,
 			@RequestParam(value = "pwd", required = false) final String pwd,
 			@RequestParam(value = "phone", required = false) String phone,
 			@RequestParam(value = "email", required = false) String email,
@@ -448,7 +548,6 @@ public class UserApi extends BaseApi {
 			loginParam.setThirdType(thirdType);
 			loginParam.setThirdToken(thirdToken);
 			loginParam.setThirdId(thirdId);
-			loginParam.setWxUsId(wxUsId);
 			loginParam.setPwd(pwd);
 			loginParam.setPhone(phone);
 			loginParam.setEmail(email);
@@ -719,15 +818,13 @@ public class UserApi extends BaseApi {
 		}
 
 		try {
-			List<ThirdBindView> thirdBindViewList = userService
-					.findThirdBindByUid(uid);
-			// 至少有两个绑定账号的时候才能解绑 1.删除thirdBind表中的绑定数据 2.删除thirddata中的数据
-			if (thirdBindViewList != null && thirdBindViewList.size() > 1) {
+			List<ThirdDataView> thirdDataViewList = userService
+					.findThirdDataListByUid(uid);
+			if (thirdDataViewList != null && thirdDataViewList.size() > 1) {
 
-				for (ThirdBindView thirdBindView : thirdBindViewList) {
-					if (thirdType.equals(thirdBindView.getType())) {
-						userService.deleteThirdBind(uid, thirdType);
-						userService.deleteThirdData(thirdBindView.getTid(),
+				for (ThirdDataView thirdDataView : thirdDataViewList) {
+					if (thirdType.equals(thirdDataView.getType())) {
+						userService.deleteThirdData(thirdDataView.getTid(),
 								thirdType);
 					}
 				}
@@ -788,24 +885,11 @@ public class UserApi extends BaseApi {
 			}
 			String pwd = MD5.md5(passwd);
 			if (THIRD_DATA_TYPE.T_PHONE.getTypeName().equals(thirdType)) {
-				ThirdBindView thirdBindViews = userService
-						.findThirdBindViewByUidAndType(userView.getId(), thirdType);
-				if (thirdBindViews != null) {
-					userService.deleteThirdBind(userView.getId(), thirdType);
-					userService.deleteThirdData(thirdBindViews.getTid(), thirdType);
-				}
+				userService.deleteThirdDataByUidAndType(userView.getId(), thirdType);
 				String token = pwd;
 
 
 				int now = TimeUtil.getCurrentTimestamp();
-				ThirdBindView thirdBindView = new ThirdBindView();
-				thirdBindView.setType(thirdType);
-				thirdBindView.setUid(userView.getId());
-				thirdBindView.setTid(thirdId);
-				thirdBindView.setToken(token);
-				thirdBindView.setPublicStatus(THIRD_BIND_PUBLIC_STATUS.YES.ordinal());
-				thirdBindView.setCreateTime(now);
-				userService.saveThirdBind(thirdBindView);
 				
 				ThirdDataView thirdDataView = new ThirdDataView();
 				thirdDataView.setTid(thirdId);
@@ -821,22 +905,11 @@ public class UserApi extends BaseApi {
 			} else if (THIRD_DATA_TYPE.T_EMAIL.getTypeName().equals(thirdType)) {
 				//TODO 暂时不知道咋处理
 			}else {
-				ThirdBindView thirdBindViewResluts = userService
-						.findThirdBindViewByUidAndType(userView.getId(),
+				ThirdDataView thirdDataView  = userService
+						.findThirdDataViewByUidAndType(userView.getId(),
 								thirdType);
-				if (thirdBindViewResluts == null) {
-					ThirdBindView thirdBindView = new ThirdBindView();
-					thirdBindView.setType(thirdType);
-					thirdBindView.setUid(userView.getId());
-					thirdBindView.setTid(thirdId);
-					if (thirdToken == null) {
-						thirdBindView.setToken(pwd);
-					} else {
-						thirdBindView.setToken(thirdToken);
-					}
-					thirdBindView.setPublicStatus(1);
-					userService.saveThirdBind(thirdBindView);
-					ThirdDataView thirdDataView = new ThirdDataView();
+				if (thirdDataView == null) {
+					thirdDataView = new ThirdDataView();
 					thirdDataView.setTid(thirdId);
 					if (thirdToken == null) {
 						thirdDataView.setToken(pwd);
@@ -856,14 +929,15 @@ public class UserApi extends BaseApi {
 		try {
 			List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 			for (String type : thirdTypeArr) {
-				ThirdBindView thirdBindViewReslut = userService
-						.findThirdBindViewByUidAndType(userView.getId(), type);
+				ThirdDataView thirdDataView  = userService
+						.findThirdDataViewByUidAndType(userView.getId(),
+								type);
 				Map<String, Object> map = new HashMap<String, Object>();
 				map.put("type", type);
-				if (thirdBindViewReslut != null) {
+				if (thirdDataView != null) {
 					map.put("binded", 1);
-					map.put("third_id", thirdBindViewReslut.getTid());
-					map.put("third_token", thirdBindViewReslut.getToken());
+					map.put("third_id", thirdDataView.getTid());
+					map.put("third_token", thirdDataView.getToken());
 				} else {
 					map.put("binded", 0);
 					map.put("third_id", "");
@@ -904,8 +978,8 @@ public class UserApi extends BaseApi {
 				if (userView == null) {
 					return error("2019");
 				}
-				ThirdBindView thirdDataView = userService
-						.findThirdBindViewByUidAndType(userView.getId(),
+				ThirdDataView thirdDataView  = userService
+						.findThirdDataViewByUidAndType(userView.getId(),
 								THIRD_DATA_TYPE.T_EMAIL.getTypeName());
 
 				if (thirdDataView != null) {
@@ -978,10 +1052,14 @@ public class UserApi extends BaseApi {
 			@RequestParam(required = true, value = "user_id") String userId,
 			@RequestParam(required = true, value = "display") String display) {
 		Long uid = XThreadLocal.getInstance().getCurrentUser();
+		
 		Map<String, String> params = new HashMap<String, String>();
 		params.put("public_status", display);
 		try {
-			userService.updateThirdBind(uid, thirdType, params);
+			ThirdDataView thirdDataView  = userService
+					.findThirdDataViewByUidAndType(uid,
+							thirdType);
+			userService.updateThirdData(thirdDataView.getTid(), thirdType, params);
 		} catch (ServiceException e) {
 			log.error(e.getMessage(), e);
 		}
@@ -1002,13 +1080,13 @@ public class UserApi extends BaseApi {
 				.getCurrentUser());
 		if (userView != null) {
 			try {
-				ThirdBindView thirdBindView = userService
-						.findThirdBindViewByUidAndType(userView.getId(),
+				ThirdDataView thirdDataView = userService
+						.findThirdDataViewByUidAndType(userView.getId(),
 								thirdType);
-				if (thirdBindView != null) {
+				if (thirdDataView != null) {
 					Map<String, String> map = new HashMap<String, String>();
 					map.put("token", thirdToken);
-					userService.updateThirdBind(userView.getId(), thirdType,
+					userService.updateThirdData(thirdDataView.getTid(), thirdType,
 							map);
 				} else {
 					return error("0");
@@ -1234,8 +1312,8 @@ public class UserApi extends BaseApi {
 			List<Map<String, Object>> dataList = new ArrayList<Map<String, Object>>();
 			Map<String, Object> resultMap = new HashMap<String, Object>();
 			long uid = user.getId();
-			ThirdBindView thirdDataView = userService
-					.findThirdBindViewByUidAndType(uid, "sina");
+			ThirdDataView thirdDataView = userService
+					.findThirdDataViewByUidAndType(uid, "sina");
 			// TODO 从数据库获取第三方关注关系 从而拉取数据
 			if (thirdDataView == null) {
 				return error("2019");
@@ -1278,6 +1356,72 @@ public class UserApi extends BaseApi {
 		}
 	}
 
+	/**
+	 * 个人资料
+	 * 
+	 * @param userid
+	 * @return
+	 */
+	@RequestMapping(value = "/vip_info")
+	@ResponseBody
+	public Map vipInfo(
+			@RequestParam(required = false, value = "uid") final Long uid) {
+
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+
+		final Long userId = XThreadLocal.getInstance().getCurrentUser();
+
+		try {
+			if (userId == null) {
+				return error("2019", null);
+			}
+//			UserPayInfoView userPayInfo = new LocalCache<UserPayInfoView>() {
+//
+//				@Override
+//				public UserPayInfoView getAliveObject() throws Exception {
+//					return manageService.findUserPayInfo(userId);
+//				}
+//			}.put(5, "user_payinfo_" + userId);
+
+			Integer vipExpire = 0;
+            try {
+            	StockView stockView = payService.findStockByUidAndItem(uid, ITEM_TYPE.PROP.getId(), ITEM_PROP.VIP.getId());
+            	if (stockView != null){
+            		vipExpire = stockView.getDeadLine();
+            	}
+                
+            }catch(Exception e){
+            	log.error(e.getMessage(), e);
+            	
+            }
+			if (vipExpire == 0) {
+				resultMap.put("vip_expire", "00-00-00");
+			} else {
+				resultMap
+						.put("vip_expire", DateCalculateUtil.intDate2String(
+								vipExpire, "yy-MM-dd"));
+			}
+			
+			Map<String, String> goldMap = new HashMap<String, String>();
+			goldMap.put("item_id", String.valueOf(ITEM_MONEY.SHOWCOIN.getId()));
+			goldMap.put("item_type",String.valueOf(ITEM_TYPE.MONEY.getId()));
+			List<StockView> stockGoldList = payService.findStockByUidAndParam(
+					userId, goldMap);
+			if (stockGoldList!=null&&stockGoldList.size()>0) {
+				resultMap.put("s_account",stockGoldList.get(0).getItemNumber());
+			}else {
+				resultMap.put("s_account", 0);
+			}
+			resultMap.put("is_vip", Adapter.isVip(vipExpire));
+			resultMap.put("vip_number", 287232);
+			return success(resultMap);
+		} catch (Exception e) {
+			log.error(e.getMessage(), e);
+			return error();
+		}
+
+	}
+
 
 
 	private boolean isLegitimate(String str) {
@@ -1297,5 +1441,68 @@ public class UserApi extends BaseApi {
 			flag = false;
 		}
 		return flag;
+	}
+
+	public static void main(String[] args) {
+		try {
+			System.out.println(DateUtils.parseDate("2016-11-09 00:00:00", "yyyy-MM-dd HH:mm:ss"));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		// try {
+		// String value = String.valueOf(new SimpleDateFormat("yyyy-MM-dd")
+		// .parse("1996-05-18").getTime() / 1000);
+		// System.out.println(value);
+		// System.out.println(new
+		// SimpleDateFormat("yyyy-MM-dd").parse("1996-05-18").getTime());
+		// } catch (Exception e) {
+		// System.out.println(e);
+		// }
+		// try {
+		// Date birthday = new Date((long)832348800*1000);
+		// Period period = new Period(new DateTime(birthday), new DateTime(),
+		// PeriodType.yearMonthDay());
+		// System.out.println(period);
+		// int age = period.getYears();
+		// System.out.println("5.0.0".compareTo("5.0.0"));
+		// System.out.println(TimeUtil.intDate2String(832348800, "yyyy-MM-dd"));
+		// } catch (Exception e) {
+		// // TODO: handle exception
+		// }
+		// String nickName="1234567812345678";
+		// try {
+		// if(nickName.getBytes("GB2312").length>16){
+		// System.out.println("超了＋"+nickName.getBytes("GB2312").length);
+		// }
+		// } catch (UnsupportedEncodingException e) {
+		// // TODO Auto-generated catch block
+		// e.printStackTrace();
+		// }
+
+		// Date birthday;
+		// int age;
+		// birthday = new Date((long)596822400*1000);
+		// // Period period = new Period(new DateTime(birthday), new DateTime(),
+		// PeriodType.yearDay());
+		// // age = period.getYears();
+		// Date now = new Date();
+		// SimpleDateFormat format_y = new SimpleDateFormat("yyyy");
+		// String birth_year =format_y.format(birthday);
+		// String this_year =format_y.format(now);
+		// age =Integer.parseInt(this_year) - Integer.parseInt(birth_year);
+		// System.out.println(age);
+		String aaa = "+18.9999";
+		String bbb = "18.9999";
+		System.out.println(aaa.indexOf("+"));
+		if (aaa.indexOf("+") == 0) {
+			aaa = aaa.replaceAll("\\+", "");
+		}
+		System.out.println(aaa);
+		System.out.println(bbb.indexOf("+"));
+		if (bbb.indexOf("+") == 0) {
+			bbb = bbb.replaceAll("\\+", "");
+		}
+		System.out.println(bbb);
 	}
 }
