@@ -5,7 +5,6 @@ import java.util.Map;
 
 import one.show.common.exception.ReturnException;
 import one.show.common.exception.ServiceException;
-
 import one.show.user.thrift.view.BlackListView;
 import one.show.user.thrift.view.ContactView;
 import one.show.user.thrift.view.NickNameUserView;
@@ -81,11 +80,7 @@ public interface UserService{
 	
 	public int saveThirdData(ThirdDataView thirdDataView) throws ServiceException;
 	
-	public List<ThirdBindView> findThirdBindByUid(long uid) throws ServiceException;
-	
-	public void saveThirdBind(ThirdBindView thirdBindView) throws ServiceException;
-	
-	public void updateThirdBind(long uid,String type,Map<String,String>map) throws ServiceException;
+	public List<ThirdDataView> findThirdDataListByUid(long uid) throws ServiceException;
 	
 	/**
 	 * 获取用户通讯录
@@ -103,11 +98,9 @@ public interface UserService{
 	 */
 	public void insertContactListByUid(List<ContactView> contactViewList) throws ServiceException;
 	
-	public void deleteThirdBind(long uid,String type) throws ServiceException;
-	
 	public void deleteThirdData(String tid,String type) throws ServiceException;
 	
-	public ThirdBindView findThirdBindViewByUidAndType(long uid,String type) throws ServiceException;
+	public ThirdDataView findThirdDataViewByUidAndType(long uid,String type) throws ServiceException;
 
 	List<UserView> findUserListByIds(List<Long> ids) throws ServiceException;
 	
@@ -147,23 +140,13 @@ public interface UserService{
 	
 	public Integer findCountBlackListByTid(long tid)throws ServiceException;
 
-	
-	public void saveNickNameUser(NickNameUserView nickNameUserView) throws ServiceException;
-	
 	public boolean isAllow(String nickName) throws ServiceException;
-	
-	public long findPopularUserByPopularNo(long popularNo) throws ServiceException;
-	
-	public void savePopularUser(long uid) throws ServiceException;
-	
 	
 	public boolean userIsForbidden(long uid,int action) throws ServiceException;
 	
-	public long findUidByNickName(String nickName) throws ServiceException;
+	public UserView findUserByNickName(String nickName) throws ServiceException;
 	
 	public List<Boolean> findForbiddenListByUidsAndAction(List<Long> uids,int action) throws ServiceException;
-	public void deleteNickName(String nickName) throws ServiceException;
-
 	
 	List<UserView> getRobotList(int num) throws ServiceException;
 	
@@ -206,5 +189,7 @@ public interface UserService{
      * @throws ServiceException
      */
     public List<UserPopularNoView> findPopularNoListByUid(long uid)  throws ServiceException;
+
+	public void deleteThirdDataByUidAndType(long id, String thirdType);
     
 }

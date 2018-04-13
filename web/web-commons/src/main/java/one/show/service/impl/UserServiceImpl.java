@@ -7,14 +7,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.jms.JMSException;
+
 import one.show.common.Adapter;
-import one.show.common.Constant.POPULAR_NO_STATUS;
-import one.show.common.Constant.STAT_ACTION;
-import one.show.common.Constant.THIRD_BIND_PUBLIC_STATUS;
 import one.show.common.JacksonUtil;
 import one.show.common.Loader;
 import one.show.common.RandomUtils;
 import one.show.common.TimeUtil;
+import one.show.common.Constant.POPULAR_NO_STATUS;
+import one.show.common.Constant.STAT_ACTION;
+import one.show.common.Constant.THIRD_BIND_PUBLIC_STATUS;
 import one.show.common.cache.LocalCache;
 import one.show.common.exception.ReturnException;
 import one.show.common.exception.ServiceException;
@@ -24,16 +26,26 @@ import one.show.common.local.HeaderParams;
 import one.show.common.local.XThreadLocal;
 import one.show.common.mq.Publisher;
 import one.show.common.mq.Queue;
-import one.show.id.thrift.iface.IDServiceProxy;
-import one.show.id.thrift.view.IDView;
-import one.show.manage.thrift.view.HeaderPortraitView;
-import one.show.search.thrift.view.UserSearchView;
 import one.show.service.DeviceService;
 import one.show.service.ManageService;
+import one.show.service.PayService;
+import one.show.service.RelationService;
 import one.show.service.SearchService;
 import one.show.service.SensitiveService;
 import one.show.service.StatService;
 import one.show.service.UserService;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.thrift.TException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import one.show.id.thrift.iface.IDServiceProxy;
+import one.show.id.thrift.view.IDView;
+import one.show.manage.thrift.view.HeaderPortraitView;
+import one.show.search.thrift.view.UserSearchView;
 import one.show.user.thrift.iface.UserServiceProxy;
 import one.show.user.thrift.view.BlackListView;
 import one.show.user.thrift.view.ContactView;
@@ -48,13 +60,6 @@ import one.show.user.thrift.view.UserDeviceView;
 import one.show.user.thrift.view.UserForbiddenView;
 import one.show.user.thrift.view.UserPopularNoView;
 import one.show.user.thrift.view.UserView;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.thrift.TException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 @Component("userService")
 public class UserServiceImpl implements UserService {
@@ -73,7 +78,11 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	private ManageService manageService;
 
+	@Autowired
+	private RelationService relationService;
 	
+	@Autowired
+	private PayService payService;
 	
 	@Autowired
 	SensitiveService sensitiveService;
@@ -121,27 +130,6 @@ public class UserServiceImpl implements UserService {
 		
 		//修改昵称
 		String nickName = updateContent.get("nickname");
-		
-		if (nickName != null){
-			try {
-				NickNameUserView nnu = new NickNameUserView();
-				nnu.setNickName(nickName);
-				nnu.setUid(uid);
-				saveNickNameUser(nnu);
-			} catch (Exception e) {
-				throw new ServiceException(e);
-			}
-			
-			try {
-				UserView user = findUserById(uid);
-				if(user!=null){
-					userServiceClientProxy.deleteNickName(user.getNickname());
-				}
-			} catch (Exception e) {
-				log.error(e.getMessage(),e);
-			}
-			
-		}
 		
 		//修改头像,加审核
 		String profile_img = updateContent.get("profile_img");
@@ -241,45 +229,15 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<ThirdBindView> findThirdBindByUid(long uid)
+	public List<ThirdDataView> findThirdDataListByUid(long uid)
 			throws ServiceException {
-		List<ThirdBindView> thirdBindViewList = null;
+		List<ThirdDataView> thirdDataViewList = null;
 		try {
-			thirdBindViewList = userServiceClientProxy.findThirdBindByUid(uid);
+			thirdDataViewList = userServiceClientProxy.findThirdDataListByUid(uid);
 		} catch (Exception e) {
 			throw new ServiceException(e);
 		}
-		return thirdBindViewList;
-	}
-
-	@Override
-	public void saveThirdBind(ThirdBindView thirdBindView)
-			throws ServiceException {
-		try {
-			userServiceClientProxy.saveThirdBind(thirdBindView);
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
-	}
-
-	@Override
-	public void updateThirdBind(long uid, String type, Map<String, String> map)
-			throws ServiceException {
-		try {
-			userServiceClientProxy.updateThirdBind(uid, type, map);
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
-	}
-
-	@Override
-	public void deleteThirdBind(long uid, String type)
-			throws ServiceException {
-		try {
-			userServiceClientProxy.deleteThirdBind(uid, type);
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
+		return thirdDataViewList;
 	}
 
 	@Override
@@ -303,12 +261,11 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public ThirdBindView findThirdBindViewByUidAndType(long uid, String type)
+	public ThirdDataView findThirdDataViewByUidAndType(long uid, String type)
 			throws ServiceException {
 		try {
-			ThirdBindView thirdBindView = userServiceClientProxy
-					.findThirdBindUidAndType(uid, type);
-			return thirdBindView;
+			ThirdDataView thirdDataView = userServiceClientProxy.findThirdDataByUidAndType(uid, type);
+			return thirdDataView;
 		} catch (TException e) {
 			throw new ServiceException(e);
 		}
@@ -462,19 +419,6 @@ public class UserServiceImpl implements UserService {
 		return count;
 	}
 
-
-
-	@Override
-	public void saveNickNameUser(NickNameUserView nickNameUserView)
-			throws ServiceException {
-		try {
-			userServiceClientProxy.saveNickNameUser(nickNameUserView);
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
-		
-	}
-
 	@Override
 	public boolean isAllow(String nickName) throws ServiceException {
 		try {
@@ -483,34 +427,6 @@ public class UserServiceImpl implements UserService {
 			throw new ServiceException(e);
 		}
 	}
-
-	@Override
-	public long findPopularUserByPopularNo(long popularNo)
-			throws ServiceException {
-		long uid=0L;
-		try {
-			PopularNoUserView popularUserView=userServiceClientProxy.findPopularUserByPopularNo(popularNo);
-			uid = popularUserView.getUid();
-			
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
-		return uid;
-	}
-
-	@Override
-	public void savePopularUser(long uid) throws ServiceException {
-		try {
-			PopularNoUserView popularUserView = new PopularNoUserView();
-			popularUserView.setUid(uid);
-			popularUserView.setPopularNo(PopularID.getInstance().nextPid());
-			userServiceClientProxy.savePopularNoUser(popularUserView);
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
-		
-	}
-
 
 	@Override
 	public boolean userIsForbidden(long uid, int action)
@@ -525,14 +441,12 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public long findUidByNickName(String nickName) throws ServiceException {
-		long uid =0L;
+	public UserView findUserByNickName(String nickName) throws ServiceException {
 		try {
-			uid = userServiceClientProxy.findUidByNickName(nickName);
+			return userServiceClientProxy.findUserByNickName(nickName);
 		} catch (Exception e) {
 			throw new ServiceException(e);
 		}
-		return uid;
 	}
 
 	@Override
@@ -543,16 +457,6 @@ public class UserServiceImpl implements UserService {
 		} catch (Exception e) {
 			throw new ServiceException(e);
 		}
-	}
-
-	@Override
-	public void deleteNickName(String nickName) throws ServiceException {
-		try {
-			userServiceClientProxy.deleteNickName(nickName);
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
-		
 	}
 	
 	@Override
@@ -607,16 +511,6 @@ public class UserServiceImpl implements UserService {
 			throw new ReturnException("2025");
 		}
 		
-		//保存用户和第三方的绑定关系
-		ThirdBindView thridBindView = new ThirdBindView();
-		thridBindView.setTid(thirdDataView.getTid());
-		thridBindView.setUid(uid);
-		thridBindView.setType(thirdDataView.getType());
-		thridBindView.setToken(thirdDataView.getToken());
-		thridBindView.setPublicStatus(THIRD_BIND_PUBLIC_STATUS.YES.ordinal());
-		thridBindView.setCreateTime(now);
-		saveThirdBind(thridBindView);
-
 		//保存用户信息数据
 		userView.setId(uid);
 		userView.setPopularNo(idView.pid);
@@ -943,12 +837,6 @@ public class UserServiceImpl implements UserService {
 		
 		int now = TimeUtil.getCurrentTimestamp();
 		try {
-			//保存靓号对应用户表
-			PopularNoUserView popularUserView = new PopularNoUserView();
-			popularUserView.setUid(uid);
-			popularUserView.setPopularNo(popularNo);
-			popularUserView.setCreateTime(now);
-			userServiceClientProxy.savePopularNoUser(popularUserView);
 			
 			//保存用户所持有靓号
 			UserPopularNoView userPopularNoView = new UserPopularNoView();
@@ -986,9 +874,6 @@ public class UserServiceImpl implements UserService {
 				throw new ServiceException("用户只有一个靓号，不能删除");
 			}
 			UserView user = findUserById(uid);
-			
-			//删除靓号对应用户表
-			userServiceClientProxy.deletePopularNoUser(popularNo);
 			
 			//删除用户所持有靓号
 			userServiceClientProxy.deleteUserPopularNo(uid, popularNo);
@@ -1045,6 +930,18 @@ public class UserServiceImpl implements UserService {
 			log.error("update  search info error",e);
 		}
 		
+	}
+
+	@Override
+	public void deleteThirdDataByUidAndType(long uid, String thirdType) {
+		try {
+			ThirdDataView td = userServiceClientProxy.findThirdDataByUidAndType(uid, thirdType);
+			if(td!=null){
+				userServiceClientProxy.deleteThirdData(td.getTid(), thirdType);
+			}
+		} catch (Exception e) {
+			log.error("update  search info error",e);
+		}
 	}
 
 }
