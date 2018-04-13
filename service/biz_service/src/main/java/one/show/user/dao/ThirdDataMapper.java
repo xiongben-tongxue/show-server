@@ -12,10 +12,11 @@ import one.show.user.domain.ThirdData;
 import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Map;
 
 /**
- * @author Haliaeetus leucocephalus 2018年1月4日 下午8:29:04
+ * @author zhangwei 2015年8月4日 下午8:29:04
  *
  */
 
@@ -26,6 +27,14 @@ public interface ThirdDataMapper {
 	@DataSource("manageRead")
     @Select("select uid,type,token,tid from t_third_data where tid = #{tid} and type=#{type}")
 	public ThirdData findByTidAndType( @Param("tid") String tid, @Param("type") String type);
+	
+	@DataSource("manageRead")
+    @Select("select uid,type,token,tid from t_third_data where uid = #{uid}")
+	public List<ThirdData> findThirdDataListByUid(@Param("uid")long uid);
+
+	@DataSource("manageRead")
+    @Select("select uid,type,token,tid from t_third_data where uid = #{uid} and type=#{type}")
+	public ThirdData findThirdDataByUidAndType(@Param("uid") long uid, @Param("type") String type);
 	
 	@DataSource("manageWrite")
 	@Insert("insert into t_third_data (uid,type,token,tid,create_time) values(#{uid},#{type},#{token},#{tid},#{createTime})")
@@ -56,6 +65,7 @@ public interface ThirdDataMapper {
         }
       
     }
+
 }
 
 

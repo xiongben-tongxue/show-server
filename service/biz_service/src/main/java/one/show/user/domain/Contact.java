@@ -5,7 +5,7 @@
 package one.show.user.domain;
 
 /**
- * @author Haliaeetus leucocephalus 2018年1月4日 下午5:32:10 
+ * @author zhangwei 2015年8月4日 下午5:32:10 
  * 用户手机通讯录 按uid分表
  * 
  */

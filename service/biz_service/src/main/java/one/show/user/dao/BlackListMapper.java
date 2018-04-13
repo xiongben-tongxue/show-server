@@ -15,11 +15,11 @@ import com.souyu.shard.annotation.DataSource;
 import com.souyu.shard.annotation.ShardBy;
 
 /**
- * Created by Haliaeetus leucocephalus on 15/7/14.
+ * Created by zhangwei on 15/7/14.
  */
 
 @Component("blackListMapper")
-@DAO(catalog = "user")
+@DAO
 public interface BlackListMapper {
 
 	

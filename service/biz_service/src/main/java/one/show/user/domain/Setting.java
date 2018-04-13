@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 
  * @author zhangyihu
- * @version 2018/1/4
+ * @version 2015/8/4
  * 
  *	用户通用设置开关表
  */

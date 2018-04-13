@@ -8,7 +8,7 @@ import java.io.Serializable;
 import one.show.common.Constant;
 
 /**
- * @author Haliaeetus leucocephalus 2018年1月4日 下午8:09:58
+ * @author zhangwei 2015年8月4日 下午8:09:58
  * 第三方登陆信息，按tid分表
  * 
  */

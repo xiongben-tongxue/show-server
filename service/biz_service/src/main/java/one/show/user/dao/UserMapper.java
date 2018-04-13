@@ -21,7 +21,7 @@ import com.souyu.shard.annotation.DataSource;
 import com.souyu.shard.annotation.ShardBy;
 
 /**
- * Created by Haliaeetus leucocephalus on 15/7/14.
+ * Created by zhangwei on 15/7/14.
  */
 
 @Component("userMapper")
@@ -69,6 +69,46 @@ public interface UserMapper {
 		@Result(column = "family_id", property = "familyId")})
 	@Select("select id,fan_level,islive,nickname,master_level,last_logintime,last_livetime,is_admin,last_login_type,role,sign_status,popular_no,create_time,isrobot,latitude,longitude,gender,profile_img,city,active,age,constellation,description,ry_token,device_uuid,is_new,notify_config,phone_number,family_id from t_user where id = #{id}")
 	public User findById( @Param("id") long id);
+	
+	@DataSource("manageRead")
+	@Results({ @Result(column = "fan_level", property = "fanLevel"),
+		@Result(column = "master_level", property = "masterLevel"),
+		@Result(column = "last_logintime", property = "lastLogintime"),
+		@Result(column = "last_livetime", property = "lastLivetime"),
+		@Result(column = "sign_status", property = "signStatus"),
+		@Result(column = "popular_no", property = "popularNo"),
+		@Result(column = "create_time", property = "createTime"),
+		@Result(column = "profile_img", property = "profileImg"),
+		@Result(column = "ry_token", property = "ryToken"),
+		@Result(column = "device_uuid", property = "deviceUuid"),
+		@Result(column = "is_new", property = "isNew"),
+		@Result(column = "is_admin", property = "isAdmin"),
+		@Result(column = "last_login_type", property = "lastLoginType"),
+		@Result(column = "notify_config", property = "notifyConfig"),
+		@Result(column = "phone_number", property = "phoneNumber"),
+		@Result(column = "family_id", property = "familyId")})
+	@Select("select id,fan_level,islive,nickname,master_level,last_logintime,last_livetime,is_admin,last_login_type,role,sign_status,popular_no,create_time,isrobot,latitude,longitude,gender,profile_img,city,active,age,constellation,description,ry_token,device_uuid,is_new,notify_config,phone_number,family_id from t_user where nickname = #{nickname}")
+	public User findUserByNickName( @Param("nickName") String nickName);
+	
+	@DataSource("manageRead")
+	@Results({ @Result(column = "fan_level", property = "fanLevel"),
+		@Result(column = "master_level", property = "masterLevel"),
+		@Result(column = "last_logintime", property = "lastLogintime"),
+		@Result(column = "last_livetime", property = "lastLivetime"),
+		@Result(column = "sign_status", property = "signStatus"),
+		@Result(column = "popular_no", property = "popularNo"),
+		@Result(column = "create_time", property = "createTime"),
+		@Result(column = "profile_img", property = "profileImg"),
+		@Result(column = "ry_token", property = "ryToken"),
+		@Result(column = "device_uuid", property = "deviceUuid"),
+		@Result(column = "is_new", property = "isNew"),
+		@Result(column = "is_admin", property = "isAdmin"),
+		@Result(column = "last_login_type", property = "lastLoginType"),
+		@Result(column = "notify_config", property = "notifyConfig"),
+		@Result(column = "phone_number", property = "phoneNumber"),
+		@Result(column = "family_id", property = "familyId")})
+	@Select("select id,fan_level,islive,nickname,master_level,last_logintime,last_livetime,is_admin,last_login_type,role,sign_status,popular_no,create_time,isrobot,latitude,longitude,gender,profile_img,city,active,age,constellation,description,ry_token,device_uuid,is_new,notify_config,phone_number,family_id from t_user where popular_no = #{pid}")
+	public User findUserByPopularNo( @Param("pid") long pid);
 
     @DataSource("manageRead")
     @SelectProvider(type = Provider.class, method = "findByIds")
@@ -115,4 +155,5 @@ public interface UserMapper {
         }
       
     }
+
 }

@@ -30,5 +30,12 @@ public interface UserService{
 	public List<User> findUserListByIds(List<Long> ids);
 	
 	public List<User> findAllUsersList(Integer start, Integer count) throws ServiceException;
+
+	public boolean isAllow(String nickName);
+
+	public User findUserByNickName(String nickName);
+
+
+	public User findUserByPopularNo(long pid);
 	
 }

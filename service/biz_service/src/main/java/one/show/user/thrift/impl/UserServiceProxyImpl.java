@@ -4,43 +4,27 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import one.show.common.TimeUtil;
 import one.show.common.Constant.POPULAR_NO_STATUS;
+import one.show.common.TimeUtil;
+import one.show.common.exception.ServerException;
 import one.show.common.exception.ServiceException;
 import one.show.user.domain.BlackList;
 import one.show.user.domain.Contact;
 import one.show.user.domain.Forbidden;
-import one.show.user.domain.NickNameUser;
-import one.show.user.domain.PopularUser;
 import one.show.user.domain.Robot;
 import one.show.user.domain.Setting;
-import one.show.user.domain.ThirdBind;
 import one.show.user.domain.ThirdData;
 import one.show.user.domain.User;
 import one.show.user.domain.UserPopular;
 import one.show.user.service.BlackListService;
 import one.show.user.service.ContactService;
 import one.show.user.service.ForbiddenService;
-import one.show.user.service.NickNameUserService;
-import one.show.user.service.PopularUserService;
 import one.show.user.service.RobotService;
 import one.show.user.service.RoomAdminService;
 import one.show.user.service.SettingService;
-import one.show.user.service.ThirdBindService;
 import one.show.user.service.ThirdDataService;
 import one.show.user.service.UserPopularService;
 import one.show.user.service.UserService;
-
-import org.apache.commons.collections4.CollectionUtils;
-import org.apache.commons.collections4.Transformer;
-import org.apache.thrift.TException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
-
-import one.show.common.exception.ServerException;
 import one.show.user.thrift.iface.UserServiceProxy.Iface;
 import one.show.user.thrift.view.BlackListView;
 import one.show.user.thrift.view.ContactView;
@@ -54,6 +38,15 @@ import one.show.user.thrift.view.UserForbiddenView;
 import one.show.user.thrift.view.UserPopularNoView;
 import one.show.user.thrift.view.UserView;
 import one.show.user.thrift.view.WhiteListView;
+
+import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.Transformer;
+import org.apache.thrift.TException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 @Component("userServiceProxyImpl")
 public class UserServiceProxyImpl implements Iface{
@@ -69,19 +62,12 @@ public class UserServiceProxyImpl implements Iface{
 	
 	@Autowired
 	private ThirdDataService thirdDataService;
-
-	@Autowired
-	private ThirdBindService thirdBindService;
 	@Autowired
 	private ForbiddenService forbiddenService;
 	@Autowired
 	private BlackListService blackListService;
 	@Autowired
 	private RoomAdminService roomAdminService;
-	@Autowired
-	private NickNameUserService nickNameUserService;
-	@Autowired
-	private PopularUserService popularUserService;
 	@Autowired
 	private UserPopularService userPopularService;
 	@Autowired
@@ -176,21 +162,6 @@ public class UserServiceProxyImpl implements Iface{
 		if(userview!=null){
 			int now = TimeUtil.getCurrentTimestamp();
 			try {
-			
-				//昵称和用户对应表
-				NickNameUser nickNameUser = new NickNameUser();
-				nickNameUser.setNickName(userview.getNickname());
-				nickNameUser.setUid(userview.getId());
-				nickNameUser.setCreateTime(now);
-				nickNameUserService.saveNickNameUser(nickNameUser);
-				
-			
-				//靓号和用户对应表
-				PopularUser popularUser = new PopularUser();
-				popularUser.setUid(userview.getId());
-				popularUser.setPopularNo(userview.getPopularNo());
-				popularUser.setCreateTime(now);
-				popularUserService.savePopularUser(popularUser);
 				//用户所持有靓号列表
 				UserPopular userPopular = new UserPopular();
 				userPopular.setUid(userview.getId());
@@ -214,61 +185,25 @@ public class UserServiceProxyImpl implements Iface{
 		
 	}
 
-
-
-
 	@Override
-	public List<ThirdBindView> findThirdBindByUid(long uid) throws TException {
+	public List<ThirdDataView> findThirdDataListByUid(long uid) throws TException {
 		
 		try {
-			List<ThirdBind> thirdBindList=thirdBindService.findThirdBindByUid(uid);
-			if(thirdBindList!=null && thirdBindList.size()!=0){
-				List<ThirdBindView> thirdBindViewList = new ArrayList<ThirdBindView>();
-				for(ThirdBind tb: thirdBindList){
-					ThirdBindView thirdBindView = new ThirdBindView();
+			List<ThirdData> thirdDataList=thirdDataService.findThirdDataListByUid(uid);
+			if(thirdDataList!=null && thirdDataList.size()!=0){
+				List<ThirdDataView> thirdDataViewList = new ArrayList<ThirdDataView>();
+				for(ThirdData tb: thirdDataList){
+					ThirdDataView thirdBindView = new ThirdDataView();
 					BeanUtils.copyProperties(tb, thirdBindView);
-					thirdBindViewList.add(thirdBindView);
+					thirdDataViewList.add(thirdBindView);
 				}
-				return thirdBindViewList;
+				return thirdDataViewList;
 			}
 		} catch (Exception e) {
 			throw new TException(e);
 		}
 		
 		return null;
-	}
-
-	@Override
-	public void saveThirdBind(ThirdBindView thirdBindView) throws TException {
-		
-		try {
-			ThirdBind thirdBind = new ThirdBind();
-			if(thirdBindView!=null){
-				BeanUtils.copyProperties(thirdBindView, thirdBind);
-			}
-			 thirdBindService.saveThirdBind(thirdBind);
-		} catch (Exception e) {
-			throw new TException(e);
-		}
-	}
-
-	@Override
-	public void updateThirdBind(long uid,String type,Map<String,String> map) throws TException {
-		try {
-			thirdBindService.updateThirdBind(uid, type, map);
-		} catch (Exception e) {
-			throw new TException(e);
-		}
-		
-	}
-
-	@Override
-	public void deleteThirdBind(long uid,String type) throws TException {
-		try {
-			thirdBindService.deleteThirdBind(uid, type);
-		} catch (Exception e) {
-			throw new TException(e);
-		}
 	}
 
 	@Override
@@ -327,20 +262,20 @@ public class UserServiceProxyImpl implements Iface{
 	}
 
 	@Override
-	public ThirdBindView findThirdBindUidAndType(long uid, String type)
+	public ThirdDataView findThirdDataByUidAndType(long uid, String type)
 			throws TException {
 		
-		ThirdBindView thirdBindView = null;
+		ThirdDataView thirdDataView = null;
 		try {
-			ThirdBind thirdBind = thirdBindService.findThirdBindByUidAndType(uid, type);
-			if(thirdBind!=null){
-				thirdBindView = new ThirdBindView();
-				BeanUtils.copyProperties(thirdBind, thirdBindView);
+			ThirdData thirdData = thirdDataService.findThirdDataByUidAndType(uid, type);
+			if(thirdData!=null){
+				thirdDataView = new ThirdDataView();
+				BeanUtils.copyProperties(thirdData, thirdDataView);
 			}
 		} catch (Exception e) {
 			throw new TException(e);
 		}
-		return thirdBindView;
+		return thirdDataView;
 	}
 
 	
@@ -502,66 +437,16 @@ public class UserServiceProxyImpl implements Iface{
 		return count;
 	}
 
-	
-	@Override
-	public void saveNickNameUser(NickNameUserView nickNameUserView)
-			throws TException {
-		try {
-			if(nickNameUserView!=null){
-				NickNameUser nickNameUser = new NickNameUser();
-				BeanUtils.copyProperties(nickNameUserView, nickNameUser);
-				nickNameUserService.saveNickNameUser(nickNameUser);
-			}
-			
-		} catch (Exception e) {
-			throw new TException(e);
-		}
-		
-	}
-
 	@Override
 	public boolean isAllow(String nickName) throws TException {
 		boolean flag = false;
 		try {
-			flag = nickNameUserService.isAllow(nickName);
+			flag = userService.isAllow(nickName);
 		} catch (Exception e) {
 			throw new TException(e);
 		}
 		return flag;
 	}
-
-	@Override
-	public PopularNoUserView findPopularUserByPopularNo(
-			long popularNo) throws TException {
-		PopularNoUserView popularNoUserView = null;
-		try {
-			PopularUser popularUser = popularUserService.findPopularUserByPopularNo(popularNo);
-			if(popularUser!=null){
-				popularNoUserView = new PopularNoUserView();
-				BeanUtils.copyProperties(popularUser, popularNoUserView);
-			}
-		} catch (Exception e) {
-			throw new TException(e);
-		}
-		return popularNoUserView;
-	}
-
-	@Override
-	public void savePopularNoUser(PopularNoUserView popularUserView)
-			throws TException {
-		try {
-			if(popularUserView!=null){
-				PopularUser popularUser = new PopularUser();
-				BeanUtils.copyProperties(popularUserView, popularUser);
-				popularUserService.savePopularUser(popularUser);
-			}
-		} catch (Exception e) {
-			throw new TException(e);
-		}
-		
-	}
-
-
 
 	@Override
 	public boolean userIsForbidden(long uid, int action) throws TException {
@@ -575,14 +460,20 @@ public class UserServiceProxyImpl implements Iface{
 	}
 
 	@Override
-	public long findUidByNickName(String nickName) throws TException {
-		long uid = 0L;
+	public UserView findUserByNickName(String nickName) throws TException {
+		UserView userView = null;
 		try {
-			uid = nickNameUserService.findUidByNickName(nickName);
+			User user = userService.findUserByNickName(nickName);
+			userView = new UserView();
+			
+			if (user != null){
+				BeanUtils.copyProperties(user, userView);
+				return userView;
+			}
 		} catch (Exception e) {
 			throw new TException(e);
 		}
-		return uid;
+		return userView;
 	}
 
 	@Override
@@ -594,16 +485,6 @@ public class UserServiceProxyImpl implements Iface{
 			throw new TException(e);
 		}
 		
-	}
-
-	@Override
-	public void deleteNickName(String nickName) throws TException {
-
-		try {
-			nickNameUserService.deleteNickName(nickName);
-		} catch (Exception e) {
-			throw new TException(e);
-		}
 	}
 	
 	@Override
@@ -650,16 +531,20 @@ public class UserServiceProxyImpl implements Iface{
 	@Override
 	public UserView findUserByPid(long pid) throws TException {
 
-		PopularUser popularUser = null;
+		UserView userView = null;
 		try {
-			popularUser = popularUserService.findPopularUserByPopularNo(pid);
-		} catch (ServiceException e) {
+			User user = userService.findUserByPopularNo(pid);
+			
+			userView = new UserView();
+			
+			if (user != null){
+				BeanUtils.copyProperties(user, userView);
+				return userView;
+			}
+		} catch (Exception e) {
 			throw new TException(e);
 		}
-		if (popularUser != null){
-			return findUserById(popularUser.getUid());
-		}
-		return null;
+		return userView;
 	}
 
 	@Override
@@ -779,16 +664,6 @@ public class UserServiceProxyImpl implements Iface{
 			throw new TException(e);
 		}
 		return list;
-	}
-
-	@Override
-	public void deletePopularNoUser(long popularNo) throws TException {
-
-		try {
-			popularUserService.deletePopularUser(popularNo);
-		} catch (ServiceException e) {
-			throw new TException(e);
-		}
 	}
 
 	@Override

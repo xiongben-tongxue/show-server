@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * Created by Haliaeetus leucocephalus on 18/1/19.
+ * Created by zhangwei on 15/8/19.
  */
 @Component("blackListService")
 public class BlackListServiceImpl implements BlackListService {

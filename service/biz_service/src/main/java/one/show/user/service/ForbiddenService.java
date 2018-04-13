@@ -9,7 +9,7 @@ import one.show.common.exception.ServiceException;
 import one.show.user.domain.Forbidden;
 
 /**
- * @author zhangyihu 2018年1月18日
+ * @author zhangyihu 2015年8月18日
  *
  */
 public interface ForbiddenService {

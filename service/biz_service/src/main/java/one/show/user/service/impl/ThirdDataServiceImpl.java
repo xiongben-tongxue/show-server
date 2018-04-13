@@ -3,10 +3,11 @@
  */
 package one.show.user.service.impl;
 
+import java.util.List;
+import java.util.Map;
+
 import one.show.common.exception.ServiceException;
-import one.show.user.dao.ThirdBindMapper;
 import one.show.user.dao.ThirdDataMapper;
-import one.show.user.domain.ThirdBind;
 import one.show.user.domain.ThirdData;
 import one.show.user.service.ThirdDataService;
 
@@ -14,10 +15,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
 
-import java.util.Map;
-
 /**
- * @author Haliaeetus leucocephalus 2018年1月4日 下午9:06:55
+ * @author zhangwei 2015年8月4日 下午9:06:55
  *
  */
 
@@ -27,8 +26,6 @@ public class ThirdDataServiceImpl implements ThirdDataService {
 	
 	@Autowired
 	private ThirdDataMapper thirdDataMapper;
-	@Autowired
-	private ThirdBindMapper thirdBindMapper;
 	
 	/* (non-Javadoc)
 	 * @see one.show.user.service.ThridDataService#findByTidAndType(java.lang.Long, java.lang.String)
@@ -79,6 +76,24 @@ public class ThirdDataServiceImpl implements ThirdDataService {
 			throw new ServiceException(e);
 		}
 		
+	}
+
+	@Override
+	public List<ThirdData> findThirdDataListByUid(long uid) throws ServiceException {
+		try {
+			return thirdDataMapper.findThirdDataListByUid(uid);
+		} catch (Exception e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	@Override
+	public ThirdData findThirdDataByUidAndType(long uid, String type) throws ServiceException {
+		try {
+			return thirdDataMapper.findThirdDataByUidAndType(uid,type);
+		} catch (Exception e) {
+			throw new ServiceException(e);
+		}
 	}
 
 }

@@ -18,7 +18,7 @@ import com.souyu.shard.annotation.DAO;
 import com.souyu.shard.annotation.DataSource;
 
 @Component
-@DAO(catalog = "user")
+@DAO
 public interface DeviceForbiddenMapper {
 
 	@DataSource("manageRead")

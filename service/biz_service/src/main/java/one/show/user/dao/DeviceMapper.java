@@ -17,7 +17,7 @@ import com.souyu.shard.annotation.DataSource;
 import com.souyu.shard.annotation.ShardBy;
 
 @Component
-@DAO(catalog = "user")
+@DAO
 public interface DeviceMapper {
 	@DataSource("manageRead")
 	@Results({ @Result(column = "device_uuid", property = "deviceUuid"),

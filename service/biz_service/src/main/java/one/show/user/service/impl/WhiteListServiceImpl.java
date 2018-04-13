@@ -11,7 +11,7 @@ import one.show.user.service.WhiteListService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 /**
- * @author Haliaeetus leucocephalus  2016年11月11日 下午7:07:43
+ * @author zhangwei  2016年11月11日 下午7:07:43
  *
  * 
  */

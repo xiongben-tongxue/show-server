@@ -8,7 +8,7 @@ import one.show.manage.domain.RobotSendGiftRatio;
 import one.show.user.domain.Robot;
 
 /**
- * @author Haliaeetus leucocephalus  2016年6月15日 下午12:50:12
+ * @author zhangwei  2016年6月15日 下午12:50:12
  *
  * 
  */

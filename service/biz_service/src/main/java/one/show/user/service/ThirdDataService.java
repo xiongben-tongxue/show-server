@@ -3,13 +3,14 @@
  */
 package one.show.user.service;
 
+import java.util.List;
 import java.util.Map;
 
 import one.show.common.exception.ServiceException;
 import one.show.user.domain.ThirdData;
 
 /**
- * @author Haliaeetus leucocephalus 2018年1月4日 下午8:28:38
+ * @author zhangwei 2015年8月4日 下午8:28:38
  *
  */
 public interface ThirdDataService {
@@ -34,6 +35,10 @@ public interface ThirdDataService {
 	public void updateThridData(String tid,String type, Map<String,String> map) throws ServiceException;
 	
 	public void deleteThirdData(String tid,String type) throws ServiceException;
+
+	public List<ThirdData> findThirdDataListByUid(long uid) throws ServiceException;
+
+	public ThirdData findThirdDataByUidAndType(long uid, String type) throws ServiceException;
 	
 }
 

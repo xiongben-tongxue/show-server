@@ -20,12 +20,12 @@ import com.souyu.shard.annotation.DataSource;
 import com.souyu.shard.annotation.ShardBy;
 
 /**
- * @author Haliaeetus leucocephalus 2018年1月4日 下午5:35:45
+ * @author zhangwei 2015年8月4日 下午5:35:45
  * 用户手机通讯录
  */
 
 @Component
-@DAO(catalog = "user")
+@DAO
 public interface ContactMapper {
 	
 	 @DataSource("manageRead")

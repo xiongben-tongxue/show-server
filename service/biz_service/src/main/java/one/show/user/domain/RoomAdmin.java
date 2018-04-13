@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 /**
  * 
- * @author Haliaeetus leucocephalus
+ * @author zhangwei
  *
  */
 public class RoomAdmin implements Serializable{

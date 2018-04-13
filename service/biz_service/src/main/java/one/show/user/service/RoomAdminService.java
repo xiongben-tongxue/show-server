@@ -6,7 +6,7 @@ import one.show.common.exception.ServiceException;
 import one.show.user.domain.RoomAdmin;
 
 /**
- * Created by Haliaeetus leucocephalus on 18/1/19.
+ * Created by zhangwei on 15/8/19.
  */
 public interface RoomAdminService {
 	

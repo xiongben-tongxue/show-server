@@ -5,15 +5,13 @@ import java.util.Map;
 
 import one.show.common.ParallelHandler;
 import one.show.common.exception.ServiceException;
+import one.show.id.thrift.iface.IDServiceProxy;
 import one.show.user.dao.UserMapper;
 import one.show.user.domain.User;
 import one.show.user.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import one.show.id.thrift.iface.IDServiceProxy;
-import one.show.id.thrift.view.IDView;
 
 @Component("userService")
 public class UserServiceImpl implements UserService{
@@ -80,6 +78,22 @@ public class UserServiceImpl implements UserService{
 			throw new ServiceException(e);
 		}
 		
+	}
+
+	@Override
+	public boolean isAllow(String nickName) {
+		User user = findUserByNickName(nickName);
+		return user==null;
+	}
+
+	@Override
+	public User findUserByNickName(String nickName) {
+		return userMapper.findUserByNickName(nickName);
+	}
+
+	@Override
+	public User findUserByPopularNo(long pid) {
+		return userMapper.findUserByPopularNo(pid);
 	}
 
 }

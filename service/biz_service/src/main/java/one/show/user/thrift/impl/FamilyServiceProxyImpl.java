@@ -24,7 +24,7 @@ import one.show.user.thrift.view.FamilyMemberView;
 import one.show.user.thrift.view.FamilyView;
 
 /**
- * @author Haliaeetus leucocephalus  2016年8月10日 下午7:23:53
+ * @author zhangwei  2016年8月10日 下午7:23:53
  *
  * 
  */

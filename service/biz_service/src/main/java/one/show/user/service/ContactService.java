@@ -9,7 +9,7 @@ import one.show.common.exception.ServiceException;
 import one.show.user.domain.Contact;
 
 /**
- * @author Haliaeetus leucocephalus 2018年1月4日 下午5:48:42
+ * @author zhangwei 2015年8月4日 下午5:48:42
  *
  */
 public interface ContactService {

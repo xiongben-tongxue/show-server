@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 
  * @author zhangyihu
- * @version 2018/1/18
+ * @version 2015/8/18
  * 
  *	用户权限表
  */

@@ -22,7 +22,7 @@ import one.show.user.thrift.view.GpsView;
 
 
 /**
- * @author Haliaeetus leucocephalus 2018年1月5日 下午9:48:19
+ * @author zhangwei 2015年8月5日 下午9:48:19
  *
  */
 

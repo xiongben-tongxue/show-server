@@ -5,7 +5,7 @@ import java.io.Serializable;
 import one.show.common.Constant.USER_SEX;
 
 /**
- * @author Haliaeetus leucocephalus
+ * @author zhangwei
  * @version Last modified 15/3/5
  * @since 0.0.1
  *        <p/>

@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * @author Haliaeetus leucocephalus  2016年6月15日 下午12:50:55
+ * @author zhangwei  2016年6月15日 下午12:50:55
  *
  * 
  */

@@ -6,12 +6,9 @@ include "UserView.thrift"
 include "ContactView.thrift"
 include "ThirdDataView.thrift"
 include "GenericType.thrift"
-include "ThirdBindView.thrift"
 include "UserForbiddenView.thrift"
 include "BlackListView.thrift"
 include "RoomAdminView.thrift"
-include "NickNameUserView.thrift"
-include "PopularNoUserView.thrift"
 include "UserPopularNoView.thrift"
 include "SettingView.thrift"
 include "RobotView.thrift"
@@ -44,20 +41,13 @@ service UserServiceProxy{
 	
 	void updateThirdData(1:string tid,2:string type, 4:map<string,string> pmap);
 	
-	list<ThirdBindView.ThirdBindView> findThirdBindByUid(1:i64 uid);
+	list<ThirdDataView.ThirdDataView> findThirdDataListByUid(1:i64 uid);
 	
-  	void saveThirdBind(1:ThirdBindView.ThirdBindView thirdBindView);
-  	
   	i32 saveThirdData(1:ThirdDataView.ThirdDataView thirdDataView);
-  	
-  	void updateThirdBind(1:i64 uid,2:string type,3:map<string,string> paramMap);
-  	
-  	void deleteThirdBind(1:i64 uid,2:string type);
   	
   	void deleteThirdData(1:string tid, 2:string type);
   	
-  	ThirdBindView.ThirdBindView findThirdBindUidAndType(1:i64 uid,2:string type);
-  	
+  	ThirdDataView.ThirdDataView findThirdDataByUidAndType(1:i64 uid,2:string type);
   	
   	list<UserForbiddenView.UserForbiddenView> findForbiddenListByUid(1:i64 uid);
   	
@@ -101,16 +91,7 @@ service UserServiceProxy{
 	
 	i32 findCountBlackListByTid(1:i64 tid);
 	
-	
-	void saveNickNameUser(1:NickNameUserView.NickNameUserView nickNameUserView);
-	
 	bool isAllow(1:string nickName);
-	
-	PopularNoUserView.PopularNoUserView findPopularUserByPopularNo(1:i64 popularNo);
-	
-	void savePopularNoUser(1:PopularNoUserView.PopularNoUserView popularNoUserView);
-	
-	void deletePopularNoUser(2:i64 popularNo)
 	
 	void saveUserPopularNo(1:UserPopularNoView.UserPopularNoView userPopularNoView);
 	
@@ -123,10 +104,9 @@ service UserServiceProxy{
 	
 	bool userIsForbidden(1:i64 uid,2:i32 action);
 	
-	i64 findUidByNickName(1:string nickName);
+	UserView.UserView findUserByNickName(1:string nickName);
 	
 	list<bool> findForbiddenListByUidsAndAction(1:list<i64> uids,2:i32 action);
-	void deleteNickName(1:string nickName);
 	
 	list<UserView.UserView> findAllUserList(1:i32 start,2:i32 count);
 	
