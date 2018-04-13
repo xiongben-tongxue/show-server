@@ -15,8 +15,8 @@
 	<modules>
 		<module>web-commons</module>
 		<module>api</module>
-		<!-- 
 		<module>admin</module>
+		<!-- 
 		<module>www</module>
 		 -->
 	</modules>

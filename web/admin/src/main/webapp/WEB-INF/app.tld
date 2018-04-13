@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE taglib
+  PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN"
+         "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+
+<taglib>
+
+  <tlib-version>1.0</tlib-version>
+  <jsp-version>1.2</jsp-version>
+  <short-name>controls</short-name>
+  <uri>/tags/app</uri>
+  <description>
+    JSP tag library containing custom GUI controls used in the
+    Tomcat Administrative Application.
+  </description>
+  
+  
+  <tag>
+    <name>pageController</name>
+    <tag-class>one.show.admin.tag.PageControllerTag</tag-class>
+    <body-content>empty</body-content>
+    
+    <attribute>
+      <name>name</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    
+    <attribute>
+      <name>form</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    
+    <attribute>
+      <name>scope</name>
+      <required>false</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+  </tag>
+
+      
+  <tag>
+    <name>auth</name>
+    <tag-class>one.show.admin.tag.AuthTag</tag-class>
+    <body-content>scriptless</body-content>
+    <attribute>
+      <name>url</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    
+  </tag>
+  
+   <tag>
+    <name>notAuth</name>
+    <tag-class>one.show.admin.tag.NotAuthTag</tag-class>
+    <body-content>scriptless</body-content>
+    <attribute>
+      <name>url</name>
+      <required>true</required>
+      <rtexprvalue>true</rtexprvalue>
+    </attribute>
+    
+  </tag>
+  
+      
+  <tag>
+    <name>xtree</name>
+    <tag-class>one.show.admin.tag.FXTreeTag</tag-class>
+    <body-content>empty</body-content>
+
+  </tag>
+   <tag>
+    <name>nav</name>
+    <tag-class>one.show.admin.tag.NavTag</tag-class>
+    <body-content>empty</body-content>
+
+  </tag>
+  
+  
+  
+</taglib>
