@@ -1,18 +1,16 @@
 package one.show.interceptor;
 
-import java.io.ByteArrayOutputStream;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import one.show.common.IPUtil;
 import one.show.common.JacksonUtil;
+import one.show.utils.IPUtil;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

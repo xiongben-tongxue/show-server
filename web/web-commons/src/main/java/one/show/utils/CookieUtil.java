@@ -1,4 +1,4 @@
-package one.show.common;
+package one.show.utils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

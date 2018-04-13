@@ -1,4 +1,4 @@
-package one.show.common;
+package one.show.utils;
 
 import java.net.Inet6Address;
 import java.net.InetAddress;
@@ -6,6 +6,8 @@ import java.net.NetworkInterface;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Enumeration;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +26,26 @@ public class IPUtil {
             match = true;
         }
         return match;
+    }
+    public static String getIP(HttpServletRequest request) {
+        String ip = request.getHeader("X-Forwarded-For");
+
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getHeader("WL-Proxy-Client-IP");
+        }
+        if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
+            ip = request.getRemoteAddr();
+        }
+        // 解析IP, 第一个为真ip
+        String[] ips = null;
+        if (ip != null) {
+            ips = ip.split(",");
+            ip = ips[0];
+        }
+        return ip;
     }
 
     // linux取ip

@@ -10,16 +10,11 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import one.show.common.Adapter;
-import one.show.common.Constant.ITEM_PROP;
-import one.show.common.Constant.ITEM_TYPE;
-import one.show.common.IPUtil;
 import one.show.common.cache.LocalCache;
 import one.show.common.exception.AuthException;
 import one.show.common.exception.ReturnException;
 import one.show.common.local.XThreadLocal;
 import one.show.manage.thrift.view.FanLevelView;
-import one.show.pay.thrift.view.StockView;
 import one.show.service.ManageService;
 import one.show.service.StatService;
 import one.show.service.ThirdpartyService;
@@ -29,6 +24,7 @@ import one.show.service.VideoService;
 import one.show.stat.thrift.view.UserStatView;
 import one.show.user.thrift.view.UserView;
 import one.show.util.CityUtil;
+import one.show.utils.IPUtil;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

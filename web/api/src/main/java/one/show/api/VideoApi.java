@@ -18,7 +18,6 @@ import one.show.common.Constant.LIVE_STREAM_STATUS;
 import one.show.common.Constant.STATUS;
 import one.show.common.Constant.USER_AGENT;
 import one.show.common.Fetch;
-import one.show.common.IPUtil;
 import one.show.common.JacksonUtil;
 import one.show.common.Utils;
 import one.show.common.cache.LocalCache;
@@ -35,6 +34,7 @@ import one.show.service.VideoService;
 import one.show.stat.thrift.view.VideoStatView;
 import one.show.user.thrift.view.UserView;
 import one.show.util.CityUtil;
+import one.show.utils.IPUtil;
 import one.show.video.thrift.view.LiveHistoryView;
 import one.show.video.thrift.view.LiveView;
 
