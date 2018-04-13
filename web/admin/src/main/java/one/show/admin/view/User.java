@@ -10,7 +10,7 @@ import one.show.manage.thrift.view.AdminRoleView;
 import one.show.manage.thrift.view.AdminUserView;
 
 /**
- * @author zhangwei 2015年8月22日 下午9:49:37
+ * @author Norman711 2015年8月22日 下午9:49:37
  *
  */
 public class User {

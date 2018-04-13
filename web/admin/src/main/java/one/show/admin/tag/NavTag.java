@@ -19,7 +19,7 @@ import org.slf4j.LoggerFactory;
 import one.show.manage.thrift.view.AdminFuncView;
 
 /**
- * @author zhangwei
+ * @author Norman711
  *  
  */
 public class NavTag extends TagSupport {

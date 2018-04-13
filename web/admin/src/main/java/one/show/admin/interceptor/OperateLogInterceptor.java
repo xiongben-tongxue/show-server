@@ -19,7 +19,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Created by zhangwei on 15-7-22.
+ * Created by Norman711 on 15-7-22.
  * 权限
  */
 public class OperateLogInterceptor implements HandlerInterceptor {

@@ -4,7 +4,7 @@
 package one.show.admin.view;
 
 /**
- * @author zhangwei 2015年8月24日 上午11:21:04
+ * @author Norman711 2015年8月24日 上午11:21:04
  * 
  */
 public class Result {

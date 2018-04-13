@@ -19,7 +19,7 @@ import one.show.manage.thrift.view.AdminFuncView;
 
 /**
 *
-* @author zhangwei
+* @author Norman711
 *
 */
 
