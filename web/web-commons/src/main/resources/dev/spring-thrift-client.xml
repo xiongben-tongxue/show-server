@@ -74,7 +74,7 @@
 		  <property name="idleTime" value="1800000"></property>
 		  <property name="addressProvider">
 			    <bean class="one.show.common.client.thrift.DynamicAddressProvider">
-			      	<property name="configPath" value="relation"></property>
+			      	<property name="configPath" value="biz"></property>
 			      	<property name="port" value="8119"></property>
 			    </bean>
 		  </property>
@@ -192,5 +192,17 @@
 			    </bean>
 		  </property>
 	</bean>
+	
+	  <bean id="commentServiceClientProxy" class="one.show.common.client.thrift.ThriftServiceClientProxyFactory" destroy-method="close">
+                  <property name="service" value="one.show.comment.thrift.iface.CommentServiceProxy"></property>
+                  <property name="maxActive" value="10"></property>
+                  <property name="idleTime" value="1800000"></property>
+                  <property name="addressProvider">
+                            <bean class="one.show.common.client.thrift.DynamicAddressProvider">
+                                <property name="configPath" value="comment"></property>
+                                <property name="port" value="8214"></property>
+                            </bean>
+                  </property>
+        </bean>
 	
 </beans>

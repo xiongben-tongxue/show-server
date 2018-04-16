@@ -28,7 +28,21 @@
         <ref bean="familyServiceProxy" /> 
         <ref bean="gpsServiceProxy" /> 
     	<ref bean="videoServiceProxy" />
+    	<ref bean="relationServiceProxy" />
+    	<ref bean="commentServiceProxy" />
+    	
     </util:list> 
+    
+     <bean id="relationServiceProxy" class="one.show.common.server.ThriftServerProxy">  
+        <property name="port" value="8119"/>  
+       <property name="selectorThreads" value="5"/>  
+        <property name="workerThreads" value="10"/> 
+        
+        <!-- thrift生成代理 -->
+        <property name="serviceProxy" value="one.show.relation.thrift.iface.RelationServiceProxy"/>  
+        <!-- 实现类 -->
+        <property name="serviceProxyImpl" ref="relationServiceProxyImpl"/>      
+    </bean>  
     
     <bean id="videoServiceProxy" class="one.show.common.server.ThriftServerProxy">  
         <property name="port" value="8012"/>  
@@ -168,5 +182,16 @@
         <!-- 实现类 -->
         <property name="serviceProxyImpl" ref="activityServiceProxyImpl"/>      
     </bean>  
+    
+    <bean id="commentServiceProxy" class="one.show.common.server.ThriftServerProxy">
+        <property name="port" value="8214"/>
+        <property name="selectorThreads" value="5"/>
+        <property name="workerThreads" value="10"/>
+
+        <!-- thrift生成代理 -->
+        <property name="serviceProxy" value="one.show.comment.thrift.iface.CommentServiceProxy"/>
+        <!-- 实现类 -->
+        <property name="serviceProxyImpl" ref="CommentServiceProxyImpl"/>
+    </bean>
     
 </beans>
