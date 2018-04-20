@@ -12,7 +12,6 @@
  	<modules>
          <module>web</module>  
          <module>service</module>
-         <module>commons</module>
     </modules>
 
 
@@ -48,7 +47,7 @@
         <repository>
             <id>nexus-snapshot</id>
             <name>internal nexus snapshot repository</name>
-            <url>http://10.25.80.200:8081/nexus/content/repositories/snapshots/</url>
+            <url>http://172.17.138.98:8081/nexus/content/repositories/snapshots/</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
@@ -57,7 +56,7 @@
         <repository>
 	        <id>central</id>
 	        <name>central</name>
-	        <url>http://10.25.80.200:8081/nexus/content/groups/public/</url>
+	        <url>http://172.17.138.98:8081/nexus/content/groups/public/</url>
 	    </repository>
     </repositories>
 
