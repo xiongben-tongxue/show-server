@@ -213,6 +213,7 @@ public class PayServiceImpl implements PayService{
 
 	
 	@Override
+	@Transactional(propagation= Propagation.REQUIRED,rollbackFor= Exception.class)
 	public void send(long uid, Item item,  long liveId, long tid)
 					throws ServiceException, StockNotEnoughException {
 

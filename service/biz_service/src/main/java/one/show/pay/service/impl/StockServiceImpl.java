@@ -55,6 +55,7 @@ public class StockServiceImpl implements StockService {
 
 	
 	@Override
+	@Transactional(propagation= Propagation.REQUIRED,rollbackFor= Exception.class)
 	public void increase(long uid, Item item,  ACTION action, Integer expire,
 			String actionDesc) throws ServiceException {
 
@@ -127,6 +128,7 @@ public class StockServiceImpl implements StockService {
 	}
 
 	@Override
+	@Transactional(propagation= Propagation.REQUIRED,rollbackFor= Exception.class)
 	public void reduce(long uid, Item item,  ACTION action,
 			Integer expire, String actionDesc) throws ServiceException, StockNotEnoughException {
 
@@ -208,6 +210,7 @@ public class StockServiceImpl implements StockService {
 
 
 	@Override
+	@Transactional(propagation= Propagation.REQUIRED,rollbackFor= Exception.class)
 	public void freeze(long uid, Item item, ACTION action, String actionDesc)
 			throws ServiceException, StockNotEnoughException {
 		//减库存
@@ -225,6 +228,7 @@ public class StockServiceImpl implements StockService {
 
 
 	@Override
+	@Transactional(propagation= Propagation.REQUIRED,rollbackFor= Exception.class)
 	public void unfreeze(long uid, Item item, ACTION action, String actionDesc)
 			throws ServiceException, StockNotEnoughException {
 
