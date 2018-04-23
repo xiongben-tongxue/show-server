@@ -31,5 +31,10 @@ struct UserView{
     28:string lastLoginType
     29:i32 notifyConfig
     30:i64 familyId
+    31:i32 lastActivetime
+    32:string birthday
+    33:string status
+    34:string ip
+    35:string largeProfileImg
 }
 

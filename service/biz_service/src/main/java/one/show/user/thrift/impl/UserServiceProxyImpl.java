@@ -28,11 +28,8 @@ import one.show.user.service.UserService;
 import one.show.user.thrift.iface.UserServiceProxy.Iface;
 import one.show.user.thrift.view.BlackListView;
 import one.show.user.thrift.view.ContactView;
-import one.show.user.thrift.view.NickNameUserView;
-import one.show.user.thrift.view.PopularNoUserView;
 import one.show.user.thrift.view.RobotView;
 import one.show.user.thrift.view.SettingView;
-import one.show.user.thrift.view.ThirdBindView;
 import one.show.user.thrift.view.ThirdDataView;
 import one.show.user.thrift.view.UserForbiddenView;
 import one.show.user.thrift.view.UserPopularNoView;
@@ -720,6 +717,23 @@ public class UserServiceProxyImpl implements Iface{
 	public WhiteListView findWhiteListByUid(long uid) throws TException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	@Override
+	public void registerUser(UserView userView, ThirdDataView thirdDataView)
+			throws TException {
+		if(userView==null||thirdDataView==null){
+			throw new TException("userView or thirdDataView is null");
+		}
+		User user = new User();
+		BeanUtils.copyProperties(userView, user);
+		ThirdData thirdData = new ThirdData();
+		BeanUtils.copyProperties(thirdDataView, thirdData);
+		try {
+			userService.registerUser(user,thirdData);
+		} catch (ServiceException e) {
+			throw new TException(e);
+		}
 	}
 
 

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import one.show.common.exception.ServerException;
 import one.show.common.exception.ServiceException;
 import one.show.user.dao.DeviceForbiddenMapper;
 import one.show.user.dao.DeviceMapper;
@@ -15,6 +16,10 @@ import one.show.user.domain.DeviceForbidden;
 import one.show.user.domain.UserDevice;
 import one.show.user.service.DeviceForbiddenService;
 import one.show.user.service.DeviceService;
+import one.show.user.thrift.iface.DeviceServiceProxy.Iface;
+import one.show.user.thrift.view.DeviceForbiddenView;
+import one.show.user.thrift.view.DeviceView;
+import one.show.user.thrift.view.UserDeviceView;
 
 import org.apache.thrift.TException;
 import org.slf4j.Logger;
@@ -22,12 +27,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import one.show.common.exception.ServerException;
-import one.show.user.thrift.iface.DeviceServiceProxy.Iface;
-import one.show.user.thrift.view.DeviceForbiddenView;
-import one.show.user.thrift.view.DeviceView;
-import one.show.user.thrift.view.UserDeviceView;
 
 
 /**

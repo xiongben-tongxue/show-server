@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import one.show.common.exception.ServiceException;
+import one.show.user.domain.ThirdData;
 import one.show.user.domain.User;
 
 public interface UserService{
@@ -37,5 +38,8 @@ public interface UserService{
 
 
 	public User findUserByPopularNo(long pid);
+
+
+	public void registerUser(User user, ThirdData thirdData) throws ServiceException;
 	
 }

@@ -22,6 +22,8 @@ service UserServiceProxy{
 	
 	UserView.UserView findUserById(1:i64 id);
 	
+	void registerUser(1:UserView.UserView userView, 2:ThirdDataView.ThirdDataView thirdDataView);
+	
 	void deleteUser(1:i64 id);
 	
 	UserView.UserView findUserByPid(1:i64 pid);

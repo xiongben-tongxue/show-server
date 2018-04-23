@@ -32,6 +32,10 @@ public class User implements Serializable {
 	private int lastLogintime;
 	/**最后直播时间*/
 	private int lastLivetime;
+	/**最后活跃时间*/
+	private int lastActivetime;
+	/**生日*/
+	private String birthday;
 	/**0 普通用户  1签约主播*/
 	private int role;
 	/**签约状态  0 未签约 ， 1 正在申请成为签约主播 ， 2 签约通过，3签约拒绝*/
@@ -65,6 +69,8 @@ public class User implements Serializable {
 	private int createTime;
 
 	private String profileImg;
+	
+	private String largeProfileImg;
 
 	private String city;
 
@@ -85,7 +91,17 @@ public class User implements Serializable {
 	private int notifyConfig = 63;
 	
 	private long familyId;
-	
+
+	private String ip;
+
+	public String getIp() {
+		return ip;
+	}
+
+	public void setIp(String ip) {
+		this.ip = ip;
+	}
+
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -96,6 +112,14 @@ public class User implements Serializable {
 
 	public int getVipExpire() {
 		return vipExpire;
+	}
+
+	public String getLargeProfileImg() {
+		return largeProfileImg;
+	}
+
+	public void setLargeProfileImg(String largeProfileImg) {
+		this.largeProfileImg = largeProfileImg;
 	}
 
 	public void setVipExpire(int vipExpire) {
@@ -378,6 +402,23 @@ public class User implements Serializable {
 
 	public void setFamilyId(long familyId) {
 		this.familyId = familyId;
+	}
+	
+	
+	public int getLastActivetime() {
+		return lastActivetime;
+	}
+
+	public void setLastActivetime(int lastActivetime) {
+		this.lastActivetime = lastActivetime;
+	}
+
+	public String getBirthday() {
+		return birthday;
+	}
+
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
 	}
 
 	/**

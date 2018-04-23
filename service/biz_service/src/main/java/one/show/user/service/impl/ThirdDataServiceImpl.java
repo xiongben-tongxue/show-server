@@ -14,6 +14,8 @@ import one.show.user.service.ThirdDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * @author zhangwei 2015年8月4日 下午9:06:55
@@ -40,6 +42,7 @@ public class ThirdDataServiceImpl implements ThirdDataService {
 	 * @see one.show.user.service.ThridDataService#save(one.show.user.domain.ThridData)
 	 */
 	@Override
+	@Transactional(propagation= Propagation.REQUIRED,rollbackFor= Exception.class)
 	public int save(ThirdData thirdData) throws ServiceException{
 		try {
 			int ret = thirdDataMapper.save(thirdData);

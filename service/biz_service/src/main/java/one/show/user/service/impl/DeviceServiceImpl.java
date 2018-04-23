@@ -12,6 +12,8 @@ import one.show.user.service.DeviceService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 @Component("deviceService")
 public class DeviceServiceImpl implements DeviceService{
 	@Autowired
@@ -40,6 +42,7 @@ public class DeviceServiceImpl implements DeviceService{
 	}
 
 	@Override
+	@Transactional(propagation= Propagation.REQUIRED,rollbackFor= Exception.class)
 	public int save(Device device) throws ServiceException {
 		try {
 			return deviceMapper.insert(device);
@@ -64,6 +67,7 @@ public class DeviceServiceImpl implements DeviceService{
 		}
 	}
 	@Override
+	@Transactional(propagation= Propagation.REQUIRED,rollbackFor= Exception.class)
 	public void insertUserDevice(UserDevice ud) throws ServiceException {
 		try {
 			userDeviceMapper.insertUserDevice(ud);
