@@ -28,6 +28,8 @@ public class User implements Serializable {
 	private String nickname;
 	/**主播级别*/
 	private int masterLevel = 1;
+	/**财富等级*/
+	private int showLevel = 0;
 	/**最后登录时间*/
 	private int lastLogintime;
 	/**最后直播时间*/
@@ -140,6 +142,14 @@ public class User implements Serializable {
 	
 	public long getId() {
 		return id;
+	}
+
+	public int getShowLevel() {
+		return showLevel;
+	}
+
+	public void setShowLevel(int showLevel) {
+		this.showLevel = showLevel;
 	}
 
 	public int getIsAdmin() {

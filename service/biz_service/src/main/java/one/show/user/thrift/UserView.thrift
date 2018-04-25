@@ -36,5 +36,6 @@ struct UserView{
     33:string status
     34:string ip
     35:string largeProfileImg
+    36:i32 showLevel
 }
 

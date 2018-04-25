@@ -30,6 +30,7 @@ public interface UserMapper {
 	@DataSource("manageRead")
 	@Results({ @Result(column = "fan_level", property = "fanLevel"),
 		@Result(column = "master_level", property = "masterLevel"),
+		@Result(column = "show_level", property = "showLevel"),
 		@Result(column = "last_logintime", property = "lastLogintime"),
 		@Result(column = "last_livetime", property = "lastLivetime"),
 		@Result(column = "last_activetime", property = "lastActivetime"),
@@ -46,8 +47,7 @@ public interface UserMapper {
 		@Result(column = "notify_config", property = "notifyConfig"),
 		@Result(column = "phone_number", property = "phoneNumber"),
 		@Result(column = "family_id", property = "familyId")})
-	@Select("select id,fan_level,islive,nickname,master_level,last_logintime,last_livetime,last_activetime,is_admin,last_login_type,role,sign_status,popular_no,create_time,isrobot,latitude,longitude,gender,profile_img,large_profile_img,city,active,age,constellation,description,ry_token,device_uuid,is_new,notify_config,phone_number,family_id,ip,birthday from t_user limit #{start}, #{count}")
-
+	@Select("select id,fan_level,islive,nickname,master_level,show_level,last_logintime,last_livetime,last_activetime,is_admin,last_login_type,role,sign_status,popular_no,create_time,isrobot,latitude,longitude,gender,profile_img,large_profile_img,city,active,age,constellation,description,ry_token,device_uuid,is_new,notify_config,phone_number,family_id,ip,birthday from t_user limit #{start}, #{count}")
 	public List<User> findAllUsersList(@Param("start") Integer start, @Param("count") Integer count);
 	
 	
@@ -55,6 +55,7 @@ public interface UserMapper {
 	@DataSource("manageRead")
 	@Results({ @Result(column = "fan_level", property = "fanLevel"),
 		@Result(column = "master_level", property = "masterLevel"),
+		@Result(column = "show_level", property = "showLevel"),
 		@Result(column = "last_logintime", property = "lastLogintime"),
 		@Result(column = "last_livetime", property = "lastLivetime"),
 		@Result(column = "last_activetime", property = "lastActivetime"),
@@ -71,12 +72,13 @@ public interface UserMapper {
 		@Result(column = "notify_config", property = "notifyConfig"),
 		@Result(column = "phone_number", property = "phoneNumber"),
 		@Result(column = "family_id", property = "familyId")})
-	@Select("select id,fan_level,islive,nickname,master_level,last_logintime,last_livetime,last_activetime,is_admin,last_login_type,role,sign_status,popular_no,create_time,isrobot,latitude,longitude,gender,profile_img,large_profile_img,city,active,age,constellation,description,ry_token,device_uuid,is_new,notify_config,phone_number,family_id,ip,birthday from t_user where id = #{id}")
+	@Select("select id,fan_level,islive,nickname,master_level,show_level,last_logintime,last_livetime,last_activetime,is_admin,last_login_type,role,sign_status,popular_no,create_time,isrobot,latitude,longitude,gender,profile_img,large_profile_img,city,active,age,constellation,description,ry_token,device_uuid,is_new,notify_config,phone_number,family_id,ip,birthday from t_user where id = #{id}")
 	public User findById( @Param("id") long id);
 	
 	@DataSource("manageRead")
 	@Results({ @Result(column = "fan_level", property = "fanLevel"),
 		@Result(column = "master_level", property = "masterLevel"),
+		@Result(column = "show_level", property = "showLevel"),
 		@Result(column = "last_logintime", property = "lastLogintime"),
 		@Result(column = "last_livetime", property = "lastLivetime"),
 		@Result(column = "last_activetime", property = "lastActivetime"),
@@ -93,12 +95,13 @@ public interface UserMapper {
 		@Result(column = "notify_config", property = "notifyConfig"),
 		@Result(column = "phone_number", property = "phoneNumber"),
 		@Result(column = "family_id", property = "familyId")})
-	@Select("select id,fan_level,islive,nickname,master_level,last_logintime,last_livetime,last_activetime,is_admin,last_login_type,role,sign_status,popular_no,create_time,isrobot,latitude,longitude,gender,profile_img,large_profile_img,city,active,age,constellation,description,ry_token,device_uuid,is_new,notify_config,phone_number,family_id,ip,birthday from t_user where nickname = #{nickname}")
+	@Select("select id,fan_level,islive,nickname,master_level,show_level,last_logintime,last_livetime,last_activetime,is_admin,last_login_type,role,sign_status,popular_no,create_time,isrobot,latitude,longitude,gender,profile_img,large_profile_img,city,active,age,constellation,description,ry_token,device_uuid,is_new,notify_config,phone_number,family_id,ip,birthday from t_user where nickname = #{nickname}")
 	public User findUserByNickName( @Param("nickname") String nickName);
 	
 	@DataSource("manageRead")
 	@Results({ @Result(column = "fan_level", property = "fanLevel"),
 		@Result(column = "master_level", property = "masterLevel"),
+		@Result(column = "show_level", property = "showLevel"),
 		@Result(column = "last_logintime", property = "lastLogintime"),
 		@Result(column = "last_livetime", property = "lastLivetime"),
 		@Result(column = "last_activetime", property = "lastActivetime"),
@@ -115,7 +118,7 @@ public interface UserMapper {
 		@Result(column = "notify_config", property = "notifyConfig"),
 		@Result(column = "phone_number", property = "phoneNumber"),
 		@Result(column = "family_id", property = "familyId")})
-	@Select("select id,fan_level,islive,nickname,master_level,last_logintime,last_livetime,last_activetime,is_admin,last_login_type,role,sign_status,popular_no,create_time,isrobot,latitude,longitude,gender,profile_img,large_profile_img,city,active,age,constellation,description,ry_token,device_uuid,is_new,notify_config,phone_number,family_id,ip,birthday from t_user where popular_no = #{pid}")
+	@Select("select id,fan_level,islive,nickname,master_level,show_level,last_logintime,last_livetime,last_activetime,is_admin,last_login_type,role,sign_status,popular_no,create_time,isrobot,latitude,longitude,gender,profile_img,large_profile_img,city,active,age,constellation,description,ry_token,device_uuid,is_new,notify_config,phone_number,family_id,ip,birthday from t_user where popular_no = #{pid}")
 	public User findUserByPopularNo( @Param("pid") long pid);
 
     @DataSource("manageRead")
@@ -124,7 +127,7 @@ public interface UserMapper {
     public List<User> findByIds(@ShardBy(value = "id", name = "ids") @Param("ids") List<Long> ids);
     
     @DataSource("manageWrite")
-    @Insert("insert into t_user(id,fan_level,islive,nickname,master_level,last_logintime,last_livetime,last_activetime,role,sign_status,popular_no,create_time,isrobot,latitude,longitude,gender,profile_img,large_profile_img,city,active,age,constellation,description,ry_token,device_uuid,is_new,notify_config,phone_number,is_admin,last_login_type,birthday,ip) values(#{id},#{fanLevel},#{islive},#{nickname},#{masterLevel},#{lastLogintime},#{lastLivetime},#{lastActivetime},#{role},#{signStatus},#{popularNo},#{createTime},#{isrobot},#{latitude},#{longitude},#{gender},#{profileImg},#{largeProfileImg},#{city},#{active},#{age},#{constellation},#{description},#{ryToken},#{deviceUuid},#{isNew},#{notifyConfig},#{phoneNumber},#{isAdmin},#{lastLoginType},#{birthday},#{ip})")
+    @Insert("insert into t_user(id,fan_level,islive,nickname,master_level,show_level,last_logintime,last_livetime,last_activetime,role,sign_status,popular_no,create_time,isrobot,latitude,longitude,gender,profile_img,large_profile_img,city,active,age,constellation,description,ry_token,device_uuid,is_new,notify_config,phone_number,is_admin,last_login_type,birthday,ip) values(#{id},#{fanLevel},#{islive},#{nickname},#{masterLevel},#{showLevel},#{lastLogintime},#{lastLivetime},#{lastActivetime},#{role},#{signStatus},#{popularNo},#{createTime},#{isrobot},#{latitude},#{longitude},#{gender},#{profileImg},#{largeProfileImg},#{city},#{active},#{age},#{constellation},#{description},#{ryToken},#{deviceUuid},#{isNew},#{notifyConfig},#{phoneNumber},#{isAdmin},#{lastLoginType},#{birthday},#{ip})")
 	public void insertUser( User user);
 
     @Select("select count(1) from user where id = #{id}")
